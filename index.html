@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Simple Carousel</title>
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="./css/undergrid.min.css">
 	<link rel="stylesheet" href="./css/style.css">
 	<!-- Scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="./js/simpleCarousel.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-			$('.carousel').carousel();
+			$('.gallery').carousel({autoRotate:3000});
 		});
 	</script>
 </head>
@@ -22,7 +22,30 @@
 	</header>
 	<div id="main">
 		<div class="container">
-			
+			<div class="gallery crsl-items">
+				<div class="crsl-wrap">
+					<figure class="crsl-item">
+						<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" />
+						<figcaption>Imagen sobre Deportes</figcaption>
+					</figure>
+					<figure class="crsl-item">
+						<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" />
+						<figcaption>Imagen sobre Naturaleza</figcaption>
+					</figure>
+					<figure class="crsl-item">
+						<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" />
+						<figcaption>Imagen sobre Comida</figcaption>
+					</figure>
+					<figure class="crsl-item">
+						<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" />
+						<figcaption>Imagen sobre Personas</figcaption>
+					</figure>
+					<figure class="crsl-item">
+						<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
+						<figcaption>Imagen abstracta</figcaption>
+					</figure>
+				</div>
+			</div>
 		</div>
 	</div>
 	<footer id="footer">

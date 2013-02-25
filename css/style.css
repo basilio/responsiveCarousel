@@ -1,0 +1,32 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.container{
+	width: 630px;
+	margin: 0 auto;
+}
+.gallery{
+	width: 630px;
+	margin: 30px auto;
+	overflow: hidden;
+}
+.gallery *{
+	display: block;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+.crsl-item{
+	position: relative;
+	width: 630px;
+	height: 410px;
+}
+.crsl-item figcaption{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	padding: 10px;
+	color: #FFF;
+	background: rgba(0,0,0,.5);
+}
