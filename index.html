@@ -4,13 +4,17 @@
 	<meta charset="UTF-8">
 	<title>Simple Carousel</title>
 	<!-- Stylesheets -->
+	<link rel="stylesheet" href="./css/docs.min.css">
 	<link rel="stylesheet" href="./css/style.css">
 	<!-- Scripts -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="./js/simpleCarousel.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-			$('.gallery').carousel({autoRotate:3000});
+			// Default use
+			$('.gallery-01').carousel();
+			// Auto Rotate
+			$('.gallery-02').carousel({autoRotate:3000});
 		});
 	</script>
 </head>
@@ -18,34 +22,108 @@
 	<header id="header">
 		<div class="container">
 			<h1>Simple Carousel</h1>
+			<blockquote id="about">
+				<p>Simple and friendly plugin gallery for code custom carousels!</p>
+			</blockquote>
+			<hr>
 		</div>
 	</header>
 	<div id="main">
 		<div class="container">
-			<div class="gallery crsl-items">
-				<div class="crsl-wrap">
-					<figure class="crsl-item">
-						<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" />
-						<figcaption>Imagen sobre Deportes</figcaption>
-					</figure>
-					<figure class="crsl-item">
-						<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" />
-						<figcaption>Imagen sobre Naturaleza</figcaption>
-					</figure>
-					<figure class="crsl-item">
-						<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" />
-						<figcaption>Imagen sobre Comida</figcaption>
-					</figure>
-					<figure class="crsl-item">
-						<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" />
-						<figcaption>Imagen sobre Personas</figcaption>
-					</figure>
-					<figure class="crsl-item">
-						<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
-						<figcaption>Imagen abstracta</figcaption>
-					</figure>
+			<section id="use-defaults">
+				<h2>Defaults use</h2>
+				<p>Gallery markup has three main elements: <strong>.crsl-items</strong> > <strong>.crsl-wrap</strong> > <strong>.crsl-item</strong></p>
+				<pre>
+&lt;div class="crsl-items"&gt;
+	&lt;div class="crsl-wrap"&gt;
+		&lt;figure class="crsl-item"&gt;
+			&lt;img src="/path/to/image.jpg"&gt;
+		&lt;/figure&gt;
+		&lt;figure class="crsl-item"&gt;
+			...
+		&lt;/figure&gt;
+		&lt;figure class="crsl-item"&gt;
+			...
+		&lt;/figure&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+				</pre>
+				<p>Also, you can use nav controls for this, with buttons for previous and next items. This is called with the data attibute as <strong>data-target-paginate="NAV-ID"</strong>.</p>
+<pre>
+&lt;div id="NAV-ID"&gt;
+	&lt;a href="#" class="prev"&gt;Previous&lt;/a&gt;
+	&lt;a href="#" class="next"&gt;Next&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+				<p>Plugin script is called in $(document).ready() detection</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel();
+});
+</pre>
+				<h3>Example</h3>
+				<div id="nav-01" class="gallery-nav">
+					<a href="#" class="prev">&laquo; Previous</a>
+					<a href="#" class="next">Next &raquo;</a>
 				</div>
-			</div>
+				<div class="gallery gallery-01 crsl-items" data-target-paginate="nav-01">
+					<div class="crsl-wrap">
+						<figure class="crsl-item">
+							<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" />
+							<figcaption>Imagen sobre Deportes</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" />
+							<figcaption>Imagen sobre Naturaleza</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" />
+							<figcaption>Imagen sobre Comida</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" />
+							<figcaption>Imagen sobre Personas</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
+							<figcaption>Imagen abstracta</figcaption>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<hr>
+			<section id="use-defaults">
+				<h2>Auto Rotate</h2>
+				<div id="nav-02" class="gallery-nav">
+					<a href="#" class="prev">&laquo; Previous</a>
+					<a href="#" class="next">Next &raquo;</a>
+				</div>
+				<div class="gallery gallery-02 crsl-items" data-target-paginate="nav-02">
+					<div class="crsl-wrap">
+						<figure class="crsl-item">
+							<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" />
+							<figcaption>Imagen sobre Deportes</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" />
+							<figcaption>Imagen sobre Naturaleza</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" />
+							<figcaption>Imagen sobre Comida</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" />
+							<figcaption>Imagen sobre Personas</figcaption>
+						</figure>
+						<figure class="crsl-item">
+							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
+							<figcaption>Imagen abstracta</figcaption>
+						</figure>
+					</div>
+				</div>
+			</section>			
+			<hr>
 		</div>
 	</div>
 	<footer id="footer">

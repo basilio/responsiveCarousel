@@ -1,20 +1,22 @@
-*{
-	margin: 0;
-	padding: 0;
-}
+/*----------------------------------- General Structure */
 .container{
 	width: 630px;
-	margin: 0 auto;
+	margin: 20px auto;
 }
+/*----------------------------------- Code */
+pre{
+	margin-bottom: 20px;
+	padding: 15px 15px 10px 15px;
+	font-size: 85%;
+	color: #333;
+	background: #EAEAEA;
+	border-radius: 10px;
+}
+/*----------------------------------- Gallery */
 .gallery{
 	width: 630px;
 	margin: 30px auto;
 	overflow: hidden;
-}
-.gallery *{
-	display: block;
-	-webkit-margin-before: 0;
-	-webkit-margin-after: 0;
 }
 .crsl-item{
 	position: relative;
@@ -29,4 +31,15 @@
 	padding: 10px;
 	color: #FFF;
 	background: rgba(0,0,0,.5);
+}
+/*----------------------------------- Gallery Nav */
+.gallery-nav{
+	position: relative;
+	height: 1px;
+}
+.gallery-nav .prev{
+	float: left;
+}
+.gallery-nav .next{
+	float: right;
 }
