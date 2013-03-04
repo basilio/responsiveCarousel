@@ -1,10 +1,9 @@
 /**
  * Simple Carousel
  * HTML Structure:
- * OBJECT >
- *	.crsl-wrap > .crsl-item
+ * .crsl-items > .crsl-wrap > .crsl-item
  * @author @basilio
- * @version 0.1
+ * @version 0.2
  **/
 
 (function($){
@@ -12,65 +11,60 @@
 		var defaults = {
 			infinite : true,
 			total : $(this).find('.crsl-item').length,
-			speed : 'fast',
-			activeClass : 'crsl-active',
-			itemWidth : $(this).find('.crsl-item:eq(0)').outerWidth(true),
-			itemHeight : $(this).find('.crsl-item:eq(0)').outerHeight(true),
+			visible : 1,
 			scroll : 1,
-			paginate : $(this).data('target-paginate'),
-			preventAnimatedQueue : false,
-			autoRotate : false
+			speed : 'fast',
+			autoRotate : false,
+			activeClass : 'crsl-active',
+			navigationId : $(this).data('navigation'),
+			itemWidth : $(this).width(),
+			itemHeight : false,
+			itemHeightEqual : false,
+			preventAnimatedQueue : false
 		}
 		return $(this).each( function(){
 			// Set Object
 			var obj = this;
 			
-			// extend
+			// Extend
 			if( $.isEmptyObject(args) == false ) $.extend( defaults, args );
 			
-			// item
 			$(obj).find('.crsl-item').css( { position : 'relative', float : 'left' } );
-			
-			// width & margin wrap
-			obj.wrapWidth = parseInt( defaults.itemWidth * defaults.total );
-			obj.wrapMarginDefault = defaults.infinite ? parseInt( defaults.itemWidth * -1 ) : 0 ;
-			obj.wrapMargin = obj.wrapMarginDefault;
-			$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', height: defaults.itemHeight+'px', marginLeft: obj.wrapMargin+'px' });
-			
-			// Add active
 			$(obj).find('.crsl-item:first-child').addClass(defaults.activeClass);
-			
-			// Infinite add last to begin
-			if( defaults.infinite ){
-				$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
-			}
+			if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 			
 			// Trigger Carousel Config
 			$(window).ready(function(){
+				// Config Call
+				obj.config(defaults, obj);
+				// Begin Carousel
 				$(obj).trigger('beginCarousel', [defaults, obj]);
-			});
-			
-			// Resize
-			$(window).bind('resizeEnd', function(){
-				if( defaults.itemWidth !== $(obj).find('.crsl-item:eq(0)').outerWidth(true) ){
-					defaults.itemWidth = $(obj).find('.crsl-item:eq(0)').outerWidth(true);
-					defaults.itemHeight = $(obj).find('.crsl-item:eq(0)').outerHeight(true);
-					obj.wrapWidth = parseInt( defaults.itemWidth * defaults.total );
-					obj.wrapMargin = obj.wrapMarginDefault = defaults.itemWidth * -1;
-					$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', height: defaults.itemHeight+'px', marginLeft: obj.wrapMargin+'px' });
-				}
+				// Resize End event
+				$(window).resize(function(){
+					if(this.resizeTO) clearTimeout(this.resizeTO);
+					this.resizeTO = setTimeout(function(){
+						$(this).trigger('resizeEnd');
+					}, 100);
+				});
 			});
 			
 			// Auto Rotate Config
 			if( defaults.autoRotate !== false ){
 				obj.rotateTime = window.setInterval( function(){
-					//$('#' + defaults.paginate).find('.next').trigger('autoclick');
 					obj.rotate(defaults, obj);
 				}, defaults.autoRotate);
 			}
 			
-			// Event Click
-			$( '#'+defaults.paginate ).delegate('.prev, .next', 'click', function(event){
+			// Bind ResizeEnd on Window: use for recall obj.config()
+			$(window).bind('resizeEnd', function(){
+				if( defaults.itemWidth !== $(obj).width() ){
+					obj.config(defaults, obj);
+					$(obj).find('.crsl-wrap').css({ marginLeft: obj.wrapMargin });
+				}
+			});
+			
+			// Clicks on Navigation
+			$( '#'+defaults.navigationId ).delegate('.prev, .next', 'click', function(event){
 				// Prevent default
 				event.preventDefault();
 				// Stop rotate
@@ -92,6 +86,19 @@
 					obj.next(defaults, obj, itemActive);
 				}
 			});
+			
+			// Base Configuration: 
+			obj.config = function(defaults, obj){
+				// Set defaults
+				defaults.itemWidth = $(obj).width();
+				defaults.itemHeight = $(obj).find('.crsl-item:eq(0)').outerHeight(true);
+				// Set Variables
+				obj.wrapWidth = parseInt( defaults.itemWidth * defaults.total );
+				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite ? parseInt( defaults.itemWidth * -1 ) : 0 ;
+				// Modify Styles
+				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px' });
+				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px' });
+			}
 			
 			// Rotate Action
 			obj.rotate = function(defaults, obj){
@@ -122,8 +129,8 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 						} else {
-							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.paginate ).find('.prev').addClass('prev-inactive');
-							if( ( obj.wrapWidth - obj.wrapMargin ) == defaults.itemWidth*defaults.total ) $( '#'+defaults.paginate ).find('.next').removeClass('next-inactive');
+							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.navigationId ).find('.prev').addClass('prev-inactive');
+							if( ( obj.wrapWidth - obj.wrapMargin ) == defaults.itemWidth*defaults.total ) $( '#'+defaults.navigationId ).find('.next').removeClass('next-inactive');
 						}
 					});
 				// Trigger Carousel Exec
@@ -146,12 +153,23 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:last-child').after( $('.crsl-item:first-child', obj) );
 						} else {
-							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.paginate ).find('.prev').removeClass('prev-inactive');
-							if( ( obj.wrapWidth - obj.wrapMargin ) != defaults.itemWidth*defaults.total ) $( '#'+defaults.paginate ).find('.next').addClass('next-inactive');
+							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.navigationId ).find('.prev').removeClass('prev-inactive');
+							if( ( obj.wrapWidth - obj.wrapMargin ) != defaults.itemWidth*defaults.total ) $( '#'+defaults.navigationId ).find('.next').addClass('next-inactive');
 						}
 					});
 				// Trigger Carousel Exec
 				$(obj).trigger('endCarousel', [defaults, obj, action]);
+			}
+			
+			// Function Equal Heights
+			$.fn.equalHeight = function(){
+				tallest = 0;
+				$(this).each(function(){
+					$(this).css({ 'height': 'auto' });
+					if ( $(this).outerHeight(true) > tallest ) { tallest = $(this).outerHeight(true); };
+				});
+				console.log(tallest);
+				$(this).css({'height': tallest});
 			}
 		});
 	}
