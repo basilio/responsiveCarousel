@@ -12,14 +12,16 @@
 			infinite : true,
 			total : $(this).find('.crsl-item').length,
 			visible : 1,
-			scroll : 1,
 			speed : 'fast',
+			overflow : true,
 			autoRotate : false,
 			activeClass : 'crsl-active',
 			navigationId : $(this).data('navigation'),
 			itemWidth : $(this).width(),
+			itemMinWidth : 320, // think in mobile!
 			itemHeight : false,
 			itemHeightEqual : false,
+			gutter : 0,
 			preventAnimatedQueue : false
 		}
 		return $(this).each( function(){
@@ -29,7 +31,12 @@
 			// Extend
 			if( $.isEmptyObject(args) == false ) $.extend( defaults, args );
 			
-			$(obj).find('.crsl-item').css( { position : 'relative', float : 'left' } );
+			if( defaults.overflow == true ){
+				$(obj).css( { overflow: 'hidden' } );
+			} else {
+				$('html, body').css( { 'overflow-x': 'hidden' } );
+			}
+			$(obj).find('.crsl-item').css( { position : 'relative', float : 'left', overflow: 'hidden' } );
 			$(obj).find('.crsl-item:first-child').addClass(defaults.activeClass);
 			if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 			
@@ -59,7 +66,6 @@
 			$(window).bind('resizeEnd', function(){
 				if( defaults.itemWidth !== $(obj).width() ){
 					obj.config(defaults, obj);
-					$(obj).find('.crsl-wrap').css({ marginLeft: obj.wrapMargin });
 				}
 			});
 			
@@ -89,15 +95,16 @@
 			
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
-				// Set defaults
-				defaults.itemWidth = $(obj).width();
-				defaults.itemHeight = $(obj).find('.crsl-item:eq(0)').outerHeight(true);
+				// Width Item
+				defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visible );
+				if( defaults.itemWidth <= defaults.itemMinWidth ) defaults.itemWidth = Math.floor( $(obj).width() - defaults.gutter );
 				// Set Variables
-				obj.wrapWidth = parseInt( defaults.itemWidth * defaults.total );
-				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite ? parseInt( defaults.itemWidth * -1 ) : 0 ;
+				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.gutter ) * defaults.total );
+				obj.wrapHeight = $(obj).find('.crsl-item').equalHeight(true);
+				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite ? parseInt( ( defaults.itemWidth + defaults.gutter ) * -1 ) : 0 ;
 				// Modify Styles
-				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px' });
-				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px' });
+				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', height: obj.wrapHeight+'px', marginLeft: obj.wrapMargin });
+				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px', marginRight : defaults.gutter+'px' });
 			}
 			
 			// Rotate Action
@@ -115,8 +122,8 @@
 			
 			// Previous Animate
 			obj.previous = function(defaults, obj, itemActive){
-				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault + ( $(itemActive).outerWidth(true) * defaults.scroll ) : obj.wrapMargin + ( $(itemActive).outerWidth(true) * defaults.scroll );
-				var prevItemIndex = parseInt( $(itemActive).index() - defaults.scroll );
+				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault + $(itemActive).outerWidth(true) : obj.wrapMargin + $(itemActive).outerWidth(true);
+				var prevItemIndex = $(itemActive).index();
 				var newItemActive = $(itemActive).prev('.crsl-item');
 				var action = 'previous';
 				// Animate
@@ -139,8 +146,8 @@
 			
 			// Next Animate
 			obj.next = function(defaults, obj, itemActive){
-				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault - ( $(itemActive).outerWidth(true) * defaults.scroll ) : obj.wrapMargin - ( $(itemActive).outerWidth(true) * defaults.scroll );
-				var nextItemIndex = parseInt( $(itemActive).index() + defaults.scroll );
+				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault - $(itemActive).outerWidth(true) : obj.wrapMargin - $(itemActive).outerWidth(true);
+				var nextItemIndex = $(itemActive).index();
 				var newItemActive = $(itemActive).next('.crsl-item');
 				var action = 'next';
 				// Animate
@@ -162,14 +169,14 @@
 			}
 			
 			// Function Equal Heights
-			$.fn.equalHeight = function(){
+			$.fn.equalHeight = function(get){
 				tallest = 0;
 				$(this).each(function(){
 					$(this).css({ 'height': 'auto' });
-					if ( $(this).outerHeight(true) > tallest ) { tallest = $(this).outerHeight(true); };
+					if ( $(this).innerHeight(true) > tallest ) { tallest = $(this).innerHeight(true); };
 				});
-				console.log(tallest);
-				$(this).css({'height': tallest});
+				if( get == true ) return tallest;
+				else $(this).css({'height': tallest});
 			}
 		});
 	}

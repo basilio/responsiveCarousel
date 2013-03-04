@@ -14,7 +14,9 @@
 			// Default use
 			$('.gallery-01').carousel();
 			// Auto Rotate
-			$('.gallery-02').carousel({autoRotate:3000});
+			$('.gallery-02').carousel({ visible: 2, overflow: false, gutter: 10 });
+			// Auto Rotate
+			$('.gallery-03').carousel({ visible: 2, speed : 300, gutter: 25 });
 		});
 	</script>
 </head>
@@ -93,7 +95,7 @@ jQuery(document).ready(function($){
 			</section>
 			<hr>
 			<section id="use-defaults">
-				<h2>Auto Rotate</h2>
+				<h2>Overflow</h2>
 				<div id="nav-02" class="gallery-nav">
 					<a href="#" class="prev">&laquo; Previous</a>
 					<a href="#" class="next">Next &raquo;</a>
@@ -120,6 +122,50 @@ jQuery(document).ready(function($){
 							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
 							<figcaption>Imagen abstracta</figcaption>
 						</figure>
+					</div>
+				</div>
+			</section>			
+			<hr>
+			<section id="use-defaults">
+				<h2>Text Blocks</h2>
+				<div id="nav-03" class="gallery-nav">
+					<a href="#" class="prev">&laquo; Previous</a>
+					<a href="#" class="next">Next &raquo;</a>
+				</div>
+				<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
+					<div class="crsl-wrap">
+						<section class="crsl-item">
+							<h2>Lorem ipsum dolor sit amet</h2>
+							<p>Non pellentesque dignissim sed nascetur magna? Dis porta! Vel risus tincidunt risus! Mattis rhoncus mid phasellus, magna porttitor aenean vel lorem. Urna nec risus?</p>
+							<ul>
+								<li>Vel tempor hac sed? Adipiscing tristique et lundium diam augue nunc?</li>
+								<li>Pulvinar, tincidunt ac diam ut, vel dapibus, pellentesque dignissim elit augue! A, sed, in in, penatibus sit, nec dictumst</li>
+								<li>Rhoncus, mus pulvinar enim! Dictumst. Cras rhoncus, tincidunt nec! Non auctor elit sed arcu risus diam mauris, nec.</li>
+							</ul>
+						</section>
+						<section class="crsl-item">
+							<h2>Porttitor enim, porttitor! Lectus ut, magna arcu</h2>
+							<blockquote>
+								<p>Scelerisque cum sociis et, amet, porttitor. Penatibus, rhoncus, phasellus sagittis? Porttitor a facilisis mus mauris est, dapibus dis dignissim vut risus quis, adipiscing ultrices etiam porttitor ultrices ut.</p>
+							</blockquote>
+							<p>Integer et elit, ac dolor ac? Habitasse duis elementum, elementum lorem placerat cursus aliquet porta ultrices a ut eu! Risus proin in placerat sed dolor cras rhoncus in montes tincidunt? Platea in elit elit vut, egestas mus dis egestas ac urna! Velit urna?</p>
+							<p>Parturient pulvinar augue in egestas, non sit arcu rhoncus magna! Sed nisi lectus pid, parturient lectus rhoncus mauris, est pid cum platea. Cum habitasse augue enim augue sit, in elit velit vel adipiscing. Adipiscing! Et tincidunt cursus platea? Et? Augue, proin rhoncus phasellus platea adipiscing nisi! Magna proin ultricies est?</p>
+						</section>
+						<section class="crsl-item">
+							<h2>Non pellentesque dignissim sed nascetur magna? Dis porta! Vel risus tincidunt risus! Mattis rhoncus mid phasellus</h2>
+							<ol>
+								<li>Elementum velit tincidunt nec dapibus velit mid dignissim, lundium in purus, etiam? Phasellus arcu?</li>
+								<li>Dolor et nunc magnis platea etiam et elementum, a parturient, aliquam, tincidunt ac parturient</li>
+								<li>A aliquam pid vut, tincidunt ut amet dignissim. Et vel adipiscing risus sit elementum porta ac, purus arcu sociis!</li>
+								<li>In quis augue diam elementum! Magnis dapibus, mus mattis? Nunc penatibus elit pellentesque.</li>
+								<li>Pid natoque aliquam diam pellentesque adipiscing, nisi. Sit, mus ac, turpis et nec nunc, cras facilisis. Sed et! Pulvinar vut amet rhoncus ac</li>
+							</ol>
+						</section>
+						<section class="crsl-item">
+							<h2>Placerat mid turpis hac integer nascetur ut ridiculus lundium placerat sit integer</h2>
+							<p>Integer et elit, ac dolor ac? Habitasse duis elementum, elementum lorem placerat cursus aliquet porta ultrices a ut eu! Risus proin in placerat sed dolor cras rhoncus in montes tincidunt? Platea in elit elit vut, egestas mus dis egestas ac urna! Velit urna? Ultrices parturient diam, ridiculus! Adipiscing montes? Parturient pulvinar augue in egestas, non sit arcu rhoncus magna! Sed nisi lectus pid, parturient lectus rhoncus mauris, est pid cum platea. Cum habitasse augue enim augue sit, in elit velit vel adipiscing. Adipiscing! Et tincidunt cursus platea? Et? Augue, proin rhoncus phasellus platea adipiscing nisi! Magna proin ultricies est? Et tempor! Mauris mauris lectus placerat et duis, lorem scelerisque pid nascetur. Mauris sagittis tincidunt tincidunt egestas augue turpis parturient.</p>
+							<p>Porttitor enim, porttitor! Lectus ut, magna arcu, elementum velit tincidunt nec dapibus velit mid dignissim, lundium in purus, etiam? Phasellus arcu? Dolor et nunc magnis platea etiam et elementum, a parturient, aliquam, tincidunt ac parturient, a aliquam pid vut, tincidunt ut amet dignissim. Et vel adipiscing risus sit elementum porta ac, purus arcu sociis! In quis augue diam elementum! Magnis dapibus, mus mattis? Nunc penatibus elit pellentesque. Pid natoque aliquam diam pellentesque adipiscing, nisi. Sit, mus ac, turpis et nec nunc, cras facilisis. Sed et! Pulvinar vut amet rhoncus ac scelerisque vut amet amet. Sagittis montes magna odio a et elementum enim ac! Nisi in proin, et. Vel nec mid nec porta aenean odio! Dolor pid odio elementum porttitor.</p>
+						</section>
 					</div>
 				</div>
 			</section>			
