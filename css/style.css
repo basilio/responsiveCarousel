@@ -17,16 +17,7 @@ pre{
 }
 /*----------------------------------- Gallery */
 .crsl-items{
-	width: 100%;
 	margin: 30px auto;
-}
-.crsl-item{
-	display: block;
-}
-.crsl-item img{
-	display: block;
-	width: 100%;
-	height: auto;
 }
 .crsl-item figcaption{
 	position: absolute;
@@ -36,15 +27,4 @@ pre{
 	padding: 10px;
 	color: #FFF;
 	background: rgba(0,0,0,.5);
-}
-/*----------------------------------- Gallery Nav */
-.gallery-nav{
-	position: relative;
-	height: 1px;
-}
-.gallery-nav .prev{
-	float: left;
-}
-.gallery-nav .next{
-	float: right;
 }

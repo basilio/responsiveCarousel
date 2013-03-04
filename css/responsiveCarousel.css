@@ -1,0 +1,19 @@
+/*----------------------------------- Carousel Gallery */
+.crsl-items{
+	width: 100%;
+}
+.crsl-item{
+	display: block;
+}
+.crsl-item .wide-image{
+	display: block;
+	width: 100%;
+	height: auto;
+}
+/*----------------------------------- Carousel Nav */
+.crsl-nav{
+	position: relative;
+	height: 1px;
+}
+.crsl-nav .prev{ float: left; }
+.crsl-nav .next{ float: right; }

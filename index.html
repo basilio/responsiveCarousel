@@ -6,6 +6,7 @@
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="./css/docs.min.css">
 	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/responsiveCarousel.css">
 	<!-- Scripts -->
 	<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="./js/responsiveCarousel.js"></script>
@@ -52,7 +53,7 @@
 				</pre>
 				<p>Also, you can use nav controls for this, with buttons for previous and next items. This is called with the data attibute as <strong>data-navigation="NAV-ID"</strong>.</p>
 <pre>
-&lt;div id="NAV-ID"&gt;
+&lt;div id="NAV-ID" class="crsl-nav"&gt;
 	&lt;a href="#" class="prev"&gt;Previous&lt;/a&gt;
 	&lt;a href="#" class="next"&gt;Next&lt;/a&gt;
 &lt;/div&gt;
@@ -64,30 +65,30 @@ jQuery(document).ready(function($){
 });
 </pre>
 				<h3>Example</h3>
-				<div id="nav-01" class="gallery-nav">
+				<div id="nav-01" class="crsl-nav">
 					<a href="#" class="prev">&laquo; Previous</a>
 					<a href="#" class="next">Next &raquo;</a>
 				</div>
 				<div class="gallery gallery-01 crsl-items" data-navigation="nav-01">
 					<div class="crsl-wrap">
 						<figure class="crsl-item">
-							<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" />
+							<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
 							<figcaption>Imagen sobre Deportes</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" />
+							<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
 							<figcaption>Imagen sobre Naturaleza</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" />
+							<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
 							<figcaption>Imagen sobre Comida</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" />
+							<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
 							<figcaption>Imagen sobre Personas</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" />
+							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
 							<figcaption>Imagen abstracta</figcaption>
 						</figure>
 					</div>
@@ -96,30 +97,30 @@ jQuery(document).ready(function($){
 			<hr>
 			<section id="use-defaults">
 				<h2>Overflow</h2>
-				<div id="nav-02" class="gallery-nav">
+				<div id="nav-02" class="crsl-nav">
 					<a href="#" class="prev">&laquo; Previous</a>
 					<a href="#" class="next">Next &raquo;</a>
 				</div>
 				<div class="gallery gallery-02 crsl-items" data-navigation="nav-02">
 					<div class="crsl-wrap">
 						<figure class="crsl-item">
-							<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" />
+							<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" class="wide-image" />
 							<figcaption>Imagen sobre Deportes</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" />
+							<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" class="wide-image" />
 							<figcaption>Imagen sobre Naturaleza</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" />
+							<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" class="wide-image" />
 							<figcaption>Imagen sobre Comida</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" />
+							<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" class="wide-image" />
 							<figcaption>Imagen sobre Personas</figcaption>
 						</figure>
 						<figure class="crsl-item">
-							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" />
+							<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" class="wide-image" />
 							<figcaption>Imagen abstracta</figcaption>
 						</figure>
 					</div>
@@ -128,7 +129,7 @@ jQuery(document).ready(function($){
 			<hr>
 			<section id="use-defaults">
 				<h2>Text Blocks</h2>
-				<div id="nav-03" class="gallery-nav">
+				<div id="nav-03" class="crsl-nav">
 					<a href="#" class="prev">&laquo; Previous</a>
 					<a href="#" class="next">Next &raquo;</a>
 				</div>
