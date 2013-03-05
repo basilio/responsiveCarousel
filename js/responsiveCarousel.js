@@ -69,10 +69,49 @@
 				}
 			});
 			
-			// Clicks on Navigation
-			$( '#'+defaults.navigationId ).delegate('.prev, .next', 'click', function(event){
+			// Click Navigation
+			$('#'+defaults.navigationId).delegate('.prev, .next', 'click', function(event){
 				// Prevent default
 				event.preventDefault();
+				// Prepare execute
+				obj.execute(defaults, obj, event, this);
+				// Previous & next action
+				if( $(this).hasClass('prev') && $('.crsl-wrap', obj).find('.crsl-item').index(itemActive) > 0 ){
+					obj.previous(defaults, obj, itemActive);
+				} else if( $(this).hasClass('next') && ( ( !defaults.infinite && ( (obj.wrapWidth-obj.wrapMargin) == defaults.itemWidth*defaults.total ) ) || ( defaults.infinite ) ) ){
+					obj.next(defaults, obj, itemActive);
+				}
+			});
+			
+			// Keypress Navigation
+			var hovertest = false;
+			$(window).on('mouseover', function(event){
+				if (event.target) { 
+					var current = event.target; 
+				} else if (event.srcElement) { 
+					var current = event.srcElement; 
+				}
+				if( $.contains(obj, current) || $(current).parents('.crsl-nav').attr('id') == $(obj).data('navigation') ){
+					hovertest = true;
+				} else {
+					hovertest = false;
+				}
+				return false;
+			});
+			$(window).on('keydown', function(event){
+				// Prepare execute
+				obj.execute(defaults, obj, event, this);
+				// Previous & next action
+				if( event.keyCode == 37 && hovertest == true ){
+					obj.previous(defaults, obj, itemActive);
+				} else if( event.keyCode == 39 && hovertest == true ){
+					obj.next(defaults, obj, itemActive);
+				}
+				return;
+			});
+			
+			// Prepare Execute
+			obj.execute = function(defaults, obj, event, $this){
 				// Stop rotate
 				if( defaults.autoRotate !== false ){
 					clearInterval(obj.rotateTime);
@@ -84,14 +123,8 @@
 					}
 				}
 				// Active
-				var itemActive = $(obj).find('.crsl-item.'+defaults.activeClass);
-				// Previous & next action
-				if( $(this).hasClass('prev') && $('.crsl-wrap', obj).find('.crsl-item').index(itemActive) > 0 ){
-					obj.previous(defaults, obj, itemActive);
-				} else if( $(this).hasClass('next') && ( ( !defaults.infinite && ( (obj.wrapWidth-obj.wrapMargin) == defaults.itemWidth*defaults.total ) ) || ( defaults.infinite ) ) ){
-					obj.next(defaults, obj, itemActive);
-				}
-			});
+				itemActive = $(obj).find('.crsl-item.'+defaults.activeClass);
+			}
 			
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
