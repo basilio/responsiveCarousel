@@ -12,6 +12,7 @@
 			infinite : true,
 			total : $(this).find('.crsl-item').length,
 			visible : 1,
+			index : 1,
 			speed : 'fast',
 			overflow : true,
 			autoRotate : false,
@@ -128,6 +129,9 @@
 			
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
+				/**
+				 * TO-DO: set visibleDefault elements to test how many items can be display on crsl-items
+				 **/
 				// Width Item
 				defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visible );
 				if( defaults.itemWidth <= defaults.itemMinWidth ) defaults.itemWidth = Math.floor( $(obj).width() - defaults.gutter );
