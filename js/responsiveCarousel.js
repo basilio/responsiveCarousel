@@ -85,17 +85,17 @@
 			});
 			
 			// Keypress Navigation
-			var hovertest = false;
+			var overCarouselTest = false;
 			$(window).on('mouseover', function(event){
 				if (event.target) { 
 					var current = event.target; 
 				} else if (event.srcElement) { 
 					var current = event.srcElement; 
 				}
-				if( $.contains(obj, current) || $(current).parents('.crsl-nav').attr('id') == $(obj).data('navigation') ){
-					hovertest = true;
+				if( $.contains(obj, current) || $(current).parents('.crsl-nav').attr('id') == $(obj).data('navigation') || $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
+					overCarouselTest = true;
 				} else {
-					hovertest = false;
+					overCarouselTest = false;
 				}
 				return false;
 			});
@@ -103,9 +103,9 @@
 				// Prepare execute
 				obj.execute(defaults, obj, event, this);
 				// Previous & next action
-				if( event.keyCode == 37 && hovertest == true ){
+				if( event.keyCode == 37 && overCarouselTest == true ){
 					obj.previous(defaults, obj, itemActive);
-				} else if( event.keyCode == 39 && hovertest == true ){
+				} else if( event.keyCode == 39 && overCarouselTest == true ){
 					obj.next(defaults, obj, itemActive);
 				}
 				return;
