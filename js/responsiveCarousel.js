@@ -40,6 +40,7 @@
 			$(obj).find('.crsl-item').css( { position : 'relative', float : 'left', overflow: 'hidden' } );
 			$(obj).find('.crsl-item:first-child').addClass(defaults.activeClass);
 			if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
+			defaults.visibleDefault = defaults.visible;
 			
 			// Trigger Carousel Config
 			$(window).ready(function(){
@@ -129,12 +130,17 @@
 			
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
-				/**
-				 * TO-DO: set visibleDefault elements to test how many items can be display on crsl-items
-				 **/
 				// Width Item
-				defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visible );
-				if( defaults.itemWidth <= defaults.itemMinWidth ) defaults.itemWidth = Math.floor( $(obj).width() - defaults.gutter );
+				defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visibleDefault );
+				if( defaults.itemWidth <= defaults.itemMinWidth ){
+					defaults.visible = defaults.visible - 1;
+					defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visible );
+				} else {
+					if( defaults.visibleDefault > defaults.visible ){
+						defaults.visible = defaults.visible + 1;
+						defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.gutter ) / defaults.visible );
+					}
+				}
 				// Set Variables
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.gutter ) * defaults.total );
 				obj.wrapHeight = $(obj).find('.crsl-item').equalHeight(true);
