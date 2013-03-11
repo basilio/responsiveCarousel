@@ -5,7 +5,6 @@
  * @author @basilio
  * @version 0.2
  **/
-
 (function($){
 	"use strict";
 	$.fn.carousel = function(args){
@@ -17,7 +16,7 @@
 			overflow : false,
 			autoRotate : false,
 			navigationId : $(this).data('navigation'),
-			itemWidth : $(this).width(),
+			itemWidth : $(this).width(), /** TO-DO **/
 			itemMinWidth : 320, // think in mobile!
 			itemHeight : false,
 			itemEqualHeight : false,
@@ -89,17 +88,18 @@
 			
 			// Keypress Navigation
 			if( defaults.keyNavigation === true ){
-				var overCarousel = false;
+				var mouseOverCarousel = false;
 				$(window).on('mouseover', function(event){
+					// Detect
 					if (event.target) { 
 						var current = event.target; 
 					} else if (event.srcElement) { 
 						var current = event.srcElement; 
 					}
 					if( $.contains(obj, current) || $(current).parents('.crsl-nav').attr('id') == $(obj).data('navigation') || $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
-						overCarousel = true;
+						mouseOverCarousel = true;
 					} else {
-						overCarousel = false;
+						mouseOverCarousel = false;
 					}
 					return false;
 				});
@@ -107,9 +107,9 @@
 					// Prepare execute
 					obj.prepareExecute(defaults, obj);
 					// Previous & next action
-					if( event.keyCode === 37 && overCarousel === true ){
+					if( event.keyCode === 37 && mouseOverCarousel === true ){
 						obj.previous(defaults, obj);
-					} else if( event.keyCode === 39 && overCarousel === true ){
+					} else if( event.keyCode === 39 && mouseOverCarousel === true ){
 						obj.next(defaults, obj);
 					}
 					return;
@@ -122,12 +122,27 @@
 					swipe : function(event, direction, distance, duration, fingerCount) {
 						// Prepare execute
 						obj.prepareExecute(defaults, obj);
+						// Previous & next action
 						if( direction == 'left' ){
-							// Next action
-							obj.next(defaults, obj);
-						} if( direction == 'right' ) {
-							// Previous action
-							obj.previous(defaults, obj);
+							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]').lenght > 1 ){
+								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]');
+								/**
+								 * TO-DO: execute swipe on all related elements
+								 **/
+								obj.next(defaults, obj);
+							} else {
+								obj.next(defaults, obj);
+							}
+						} else if( direction == 'right' ) {
+							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]').length > 1 ){
+								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]');
+								/**
+								 * TO-DO: execute swipe on all related elements
+								 **/
+								obj.previous(defaults, obj);
+							} else {
+								obj.previous(defaults, obj);
+							}
 						}
 					},
 					threshold : 0
@@ -231,8 +246,8 @@
 				var nextItemIndex = $(obj.itemActive).index();
 				var newItemActive = $(obj.itemActive).next('.crsl-item');
 				var action = 'next';
-					// Trigger Begin Carousel Move
-					$(obj).trigger('beginCarousel', [defaults, obj, action]);
+				// Trigger Begin Carousel Move
+				$(obj).trigger('beginCarousel', [defaults, obj, action]);
 				// Animate
 				$(obj).
 					find('.crsl-wrap').
