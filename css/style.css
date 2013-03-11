@@ -1,7 +1,44 @@
 /*----------------------------------- General Structure */
 .container{
-	width: 80%;
-	margin: 20px auto;
+	width: 960px;
+	margin: 20px auto 40px auto;
+}
+.wrap-container{
+	padding: 0 10px;
+}
+.section{
+	padding-top: 50px;
+}
+.example{
+	padding: 20px 0 30px 0;
+}
+/*----------------------------------- Header */
+#header .container{
+	margin-bottom: 0;
+}
+.site-title{
+	margin-bottom: 8px;
+	line-height: 100%;
+}
+.space{
+	letter-spacing: -10px;
+}
+/*----------------------------------- Nav */
+.nav-bar{
+	margin: 0 0 20px 0;
+	padding: 0 5px;
+	background: #333;
+	border-radius: 10px;
+}
+.nav-bar li{
+	float: left;
+	margin-bottom: 0;
+}
+.nav-bar li a{
+	display: inline-block;
+	margin-right: 3px;
+	padding: 15px;
+	color: #FFF;
 }
 /*----------------------------------- Code */
 pre{
@@ -11,15 +48,40 @@ pre{
 	color: #333;
 	background: #EAEAEA;
 	border-radius: 10px;
+	overflow: auto;
 }
 .normalweight{
 	font-weight: 100;
 }
+.code-option{
+	padding: 2px 3px;
+	background-color: #FF0;
+}
+/*----------------------------------- Table */
+table{
+	width: 100%;
+	margin-bottom: 20px;
+	overflow: auto;
+}
+table th, table td{
+	padding: 8px 10px;
+	border-top: 1px solid #EAEAEA;
+}
+table th{
+	font-weight: bold;
+}
+table tbody tr:nth-child(2n+1){
+	background-color: #EAEAEA;
+}
+.th-item{ width: 25%; }
+.th-description{ width: 50%; }
+.th-default{ width: 25%; }
 /*----------------------------------- Gallery */
 .crsl-items{
 	margin: 30px auto;
 }
 .crsl-item figcaption{
+	box-sizing: border-box;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -27,4 +89,38 @@ pre{
 	padding: 10px;
 	color: #FFF;
 	background: rgba(0,0,0,.5);
+}
+/*----------------------------------- Footer */
+#footer .container{
+	min-height: 100px;
+}
+/*----------------------------------- Clearfix */
+.cf:before, .cf:after {
+	content: " ";
+	display: table;
+}
+.cf:after {
+	clear: both;
+}
+.cf {
+	*zoom: 1;
+}
+/*----------------------------------- Media Queries */
+@media only screen and ( min-width : 1360px ){
+	.container{
+		width: 1240px;
+	}
+}
+@media only screen and ( min-width : 720px ) and ( max-width : 960px ){
+	.container{
+		width: 720px;
+	}
+}
+@media only screen and ( max-width : 720px ){
+	.container{
+		width: 100%;
+	}
+	.nav-menu li a{
+		padding: 15px 7px;
+	}
 }
