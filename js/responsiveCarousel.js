@@ -17,7 +17,7 @@
 			autoRotate : false,
 			navigationId : $(this).data('navigation'),
 			itemWidth : $(this).width(), /** TO-DO **/
-			itemMinWidth : 320, // think in mobile!
+			itemMinWidth : 0, // think in mobile!
 			itemHeight : false,
 			itemEqualHeight : false,
 			itemMargin : 0,
