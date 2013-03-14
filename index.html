@@ -14,14 +14,33 @@
 	<script type="text/javascript" src="./js/responsiveCarousel.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-			// Default use
-			$('.gallery-header').carousel({ visible: 2, itemMargin: 10, itemMinWidth: 300, swipeNavigation: true });
-			// Default use
+			// Defaut use
 			$('.gallery-01').carousel();
-			// Auto Rotate
+			// Multiple items
 			$('.gallery-02').carousel({ visible: 3, itemMargin: 10, itemMinWidth: 300, swipeNavigation: true });
-			// Auto Rotate
+			// Overflow: true
 			$('.gallery-03').carousel({ overflow: true, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+			// Rotate automatically
+			$('.gallery-04').carousel({ autoRotate: 4000 });
+			// Nav Affix
+			var affixTop = 0, top = 10;
+			$(window).on('ready resize scroll', function(){
+				affix();
+			});
+			function affix(){
+				var offsetWindow = $(window).scrollTop();
+				var offsetMenu = $('#nav-menu').offset();
+				if( affixTop > 0 && affixTop >= offsetWindow ) {
+					affixTop = 0;
+					$('#nav-menu').css({ position: 'relative', top: '0' });
+					return;
+				} else if( ( offsetWindow > offsetMenu.top - (top+1) && affixTop === 0 ) || ( offsetWindow > offsetMenu.top && affixTop !== 0 ) ){
+					if( affixTop === 0 ) affixTop = offsetWindow;
+					$('#nav-menu').css({ position: 'fixed', width: '100%', top: (top*-1)+'px' });
+				} else {
+					$('#nav-menu').css({ position: 'relative', top: '0' });
+				}
+			}
 		});
 	</script>
 </head>
@@ -42,7 +61,7 @@
 				<ul class="nav-bar cf">
 					<li><a href="#how-to-use">How to use</a></li>
 					<li><a href="#options">Options</a></li>
-					<li><a href="#example">Examples</a></li>
+					<li><a href="#examples">Examples</a></li>
 					<li><a href="#download">Download</a></li>
 					<li><a href="#license">License</a></li>
 				</ul>
@@ -171,17 +190,7 @@ jQuery(document).ready(function($){
 							</tr>
 							<tr>
 								<td><code>itemMinWidth</code></td>
-								<td><code>320</code></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><code>itemHeight</code></td>
-								<td><code>false</code></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><code>itemEqualHeight</code></td>
-								<td><code>false</code></td>
+								<td><code>0</code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -192,11 +201,6 @@ jQuery(document).ready(function($){
 							<tr>
 								<td><code>itemClassActive</code></td>
 								<td><code>'crsl-active'</code></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><code>preventAnimatedQueue</code></td>
-								<td><code>false</code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -216,12 +220,12 @@ jQuery(document).ready(function($){
 					<h2>Examples</h2>
 					<p>Lorem ipsum dolor sit amet</p>
 					<br>
-					<div id="option-visible" class="example">
+					<div id="option-visible" class="example cf">
 						<h3>Multiple elements</h3>
 						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
 <pre>
 jQuery(document).ready(function($){
-	$('.crsl-items').carousel({ visible: 3, itemMinWidth: 300, itemMargin: 10 });
+	$('.crsl-items').carousel({ <strong>visible: 3, itemMinWidth: 300, itemMargin: 10</strong> });
 });
 </pre>
 						<div id="nav-02" class="crsl-nav">
@@ -253,12 +257,12 @@ jQuery(document).ready(function($){
 							</div>
 						</div>
 					</div>
-					<div class="option-overflow">
+					<div id="option-overflow" class="example cf">
 						<h3>Overflow: true</h3>
 						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
 <pre>
 jQuery(document).ready(function($){
-	$('.crsl-items').carousel({ overflow: true, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+	$('.crsl-items').carousel({ <strong>overflow: true</strong>, visible: 2, itemMinWidth: 400, itemMargin: 10 });
 });
 </pre>
 						<div id="nav-03" class="crsl-nav">
@@ -266,6 +270,43 @@ jQuery(document).ready(function($){
 							<a href="#" class="next">Next &raquo;</a>
 						</div>
 						<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
+							<div class="crsl-wrap">
+								<figure class="crsl-item">
+									<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+									<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+									<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+									<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+									<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+									<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+								</figure>
+							</div>
+						</div>
+					</div>
+					<div id="option-autorotate" class="example cf">
+						<h3>Rotate Automatically</h3>
+						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-item').carousel({ <strong>autoRotate: 4000</strong> });
+});
+</pre>
+						<div id="nav-04" class="crsl-nav">
+							<a href="#" class="prev">&laquo; Previous</a>
+							<a href="#" class="next">Next &raquo;</a>
+						</div>
+						<div class="gallery gallery-04 crsl-items" data-navigation="nav-04">
 							<div class="crsl-wrap">
 								<figure class="crsl-item">
 									<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />

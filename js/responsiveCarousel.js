@@ -16,13 +16,10 @@
 			overflow : false,
 			autoRotate : false,
 			navigationId : $(this).data('navigation'),
-			itemWidth : $(this).width(), /** TO-DO **/
+			itemWidth : $(this).width(), /** TO-DO: **/
 			itemMinWidth : 0, // think in mobile!
-			itemHeight : false,
-			itemEqualHeight : false,
 			itemMargin : 0,
 			itemClassActive : 'crsl-active',
-			preventAnimatedQueue : false,
 			keyNavigation : true,
 			swipeNavigation : false
 		}
@@ -35,16 +32,12 @@
 			
 			// Carousel Config
 			$(window).ready(function(){
-				
 				// Init some defaults styles
 				obj.init(defaults, obj);
-				
 				// This configure and margins and variables when load and resize
 				obj.config(defaults, obj);
-				
 				// Trigger Init Event Carousel
 				$(obj).trigger('initCarousel', [defaults, obj]);
-				
 				// Resize End event
 				$(window).resize(function(){
 					if( this.resizeTO ) clearTimeout(this.resizeTO);
@@ -52,16 +45,15 @@
 						$(this).trigger('resizeEnd');
 					}, 100);
 				});
+				// Set AutoRotate Interval
+				if( defaults.autoRotate !== false ){
+					obj.rotateTime = window.setInterval( function(){
+						obj.rotate(defaults, obj);
+					}, defaults.autoRotate);
+				}
 			});
 			
-			// Auto Rotate Config
-			if( defaults.autoRotate !== false ){
-				obj.rotateTime = window.setInterval( function(){
-					obj.rotate(defaults, obj);
-				}, defaults.autoRotate);
-			}
-			
-			// Bind ResizeEnd on Window: use for recall obj.config()
+			// Bind ResizeEnd on Window: use for recall obj.config() with his variables
 			$(window).on('resizeEnd', function(){
 				if( defaults.itemWidth !== $(obj).width() ){
 					obj.config(defaults, obj);
@@ -72,16 +64,12 @@
 			$('#'+defaults.navigationId).delegate('.prev, .next', 'click', function(event){
 				// Prevent default
 				event.preventDefault();
-				
 				// Prepare execute
 				obj.prepareExecute(defaults, obj);
-				
 				// Previous & next action
 				if( $(this).hasClass('prev') && $('.crsl-wrap', obj).find('.crsl-item').index(obj.itemActive) > 0 ){
-					// Action Previous
 					obj.previous(defaults, obj);
 				} else if( $(this).hasClass('next') && ( ( !defaults.infinite && ( (obj.wrapWidth-obj.wrapMargin) == defaults.itemWidth*defaults.total ) ) || ( defaults.infinite ) ) ){
-					// Action Next
 					obj.next(defaults, obj);
 				}
 			});
@@ -104,12 +92,16 @@
 					return false;
 				});
 				$(window).on('keydown', function(event){
-					// Prepare execute
-					obj.prepareExecute(defaults, obj);
 					// Previous & next action
 					if( event.keyCode === 37 && mouseOverCarousel === true ){
+						// Prepare execute
+						obj.prepareExecute(defaults, obj);
+						// Previous
 						obj.previous(defaults, obj);
 					} else if( event.keyCode === 39 && mouseOverCarousel === true ){
+						// Prepare execute
+						obj.prepareExecute(defaults, obj);
+						// Next
 						obj.next(defaults, obj);
 					}
 					return;
@@ -153,17 +145,13 @@
 				// Set some default vars
 				defaults.total = $(this).find('.crsl-item').length;
 				defaults.visibleDefault = defaults.visible;
-				
 				// Force some styles on items
-				$(obj).find('.crsl-item').css({ position : 'relative', float : 'left', overflow: 'hidden' });
-				
+				$(obj).find('.crsl-item').css({ position : 'relative', float : 'left', overflow: 'hidden', height: 'auto' });
 				// Declare the item ative
 				$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
-				
 				// Move last element to begin for infinite carousel
 				if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
-				
-				// if defaults.overflow 
+				// if defaults.overflow
 				if( defaults.overflow === false ) $(obj).css({ overflow: 'hidden' });
 				else $('html, body').css({ 'overflow-x': 'hidden' });
 			}
@@ -178,14 +166,11 @@
 						Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.itemMinWidth );
 					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).width() ) : Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.visible );
 				}
-				
 				// Set Variables
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
-				obj.wrapHeight = $(obj).find('.crsl-item').equalHeight(true);
 				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite ? parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 ) : 0 ;
-				
 				// Modify Styles
-				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', height: obj.wrapHeight+'px', marginLeft: obj.wrapMargin });
+				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', marginLeft: obj.wrapMargin });
 				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px', marginRight : defaults.itemMargin+'px' });
 			}
 			
@@ -196,22 +181,26 @@
 					clearInterval(obj.rotateTime);
 				}
 				// Prevent Animate Event
-				if( defaults.preventAnimatedQueue !== false && $('.'+defaults.preventAnimatedQueue+':animated').length > 0 ){
+				if( $(obj).find('.crsl-wrap:animated').length > 0 ){
+					mouseOverCarousel = false;
 					return false;
 				}
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
+				return true;
 			}
 			
 			// Rotate Action
 			obj.rotate = function(defaults, obj){
 				// Prevent Animate Event
-				if( defaults.preventAnimatedQueue !== false && $('.'+defaults.preventAnimatedQueue+':animated').length > 0 ){
+				if( $(obj).find('.crsl-wrap:animated').length > 0 ){
+					mouseOverCarousel = false;
 					return false;
 				}
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
 				obj.next(defaults, obj);
+				return true;
 			}
 			
 			// Previous Animate
@@ -264,17 +253,6 @@
 						// Trigger Carousel Exec
 						$(this).trigger('endCarousel', [defaults, obj, action]);
 					});
-			}
-			
-			// Function Equal Heights
-			$.fn.equalHeight = function(get){
-				var tallest = 0;
-				$(this).each(function(){
-					$(this).css({ 'height': 'auto' });
-					if ( $(this).innerHeight(true) > tallest ) { tallest = $(this).innerHeight(true); };
-				});
-				if( get === true ) return tallest;
-				else $(this).css({'height': tallest});
 			}
 		});
 	}

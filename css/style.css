@@ -7,10 +7,10 @@
 	padding: 0 10px;
 }
 .section{
-	padding-top: 50px;
+	padding-top: 80px;
 }
 .example{
-	padding: 20px 0 30px 0;
+	padding: 30px 0;
 }
 /*----------------------------------- Header */
 #header .container{
@@ -24,8 +24,15 @@
 	letter-spacing: -10px;
 }
 /*----------------------------------- Nav */
+#nav-menu{
+	z-index: 100;
+	background-color: rgba(255, 255, 255, .85);
+}
+#nav-menu .container{
+	margin-bottom: 0;
+}
 .nav-bar{
-	margin: 0 0 20px 0;
+	margin: 0 0 10px 0;
 	padding: 0 5px;
 	background: #333;
 	border-radius: 10px;
