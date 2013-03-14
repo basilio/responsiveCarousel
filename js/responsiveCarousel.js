@@ -15,8 +15,7 @@
 			speed : 'fast',
 			overflow : false,
 			autoRotate : false,
-			navigationId : $(this).data('navigation'),
-			itemWidth : $(this).width(), /** TO-DO: **/
+			navigation : false,
 			itemMinWidth : 0, // think in mobile!
 			itemMargin : 0,
 			itemClassActive : 'crsl-active',
@@ -29,6 +28,7 @@
 			
 			// Extend
 			if( $.isEmptyObject(args) == false ) $.extend( defaults, args );
+			if( $.isEmptyObject( $(obj).data('crsl') ) == false ) $.extend( defaults, $(obj).data('crsl') );
 			
 			// Carousel Config
 			$(window).ready(function(){
@@ -61,7 +61,7 @@
 			});
 			
 			// Click Navigation
-			$('#'+defaults.navigationId).delegate('.prev, .next', 'click', function(event){
+			$('#'+defaults.navigation).delegate('.prev, .next', 'click', function(event){
 				// Prevent default
 				event.preventDefault();
 				// Prepare execute
@@ -116,8 +116,8 @@
 						obj.prepareExecute(defaults, obj);
 						// Previous & next action
 						if( direction == 'left' ){
-							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]').lenght > 1 ){
-								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]');
+							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]').lenght > 1 ){
+								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]');
 								/**
 								 * TO-DO: execute swipe on all related elements
 								 **/
@@ -126,8 +126,8 @@
 								obj.next(defaults, obj);
 							}
 						} else if( direction == 'right' ) {
-							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]').length > 1 ){
-								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigationId+'"]');
+							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]').length > 1 ){
+								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]');
 								/**
 								 * TO-DO: execute swipe on all related elements
 								 **/
@@ -144,6 +144,7 @@
 			obj.init = function(defaults, obj){
 				// Set some default vars
 				defaults.total = $(this).find('.crsl-item').length;
+				defaults.itemWidth = $(this).width();
 				defaults.visibleDefault = defaults.visible;
 				// Force some styles on items
 				$(obj).find('.crsl-item').css({ position : 'relative', float : 'left', overflow: 'hidden', height: 'auto' });
@@ -159,12 +160,12 @@
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
 				// Width Item
-				defaults.itemWidth = Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.visibleDefault );
+				defaults.itemWidth = Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visibleDefault );
 				if( defaults.itemWidth <= defaults.itemMinWidth ){
-					defaults.visible = Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.itemMinWidth ) === 1 ?
+					defaults.visible = Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.itemMinWidth ) === 1 ?
 						Math.floor( $(obj).width() / defaults.itemMinWidth ) :
 						Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.itemMinWidth );
-					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).width() ) : Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.visible );
+					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).width() ) : Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visible );
 				}
 				// Set Variables
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
@@ -221,8 +222,8 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 						} else {
-							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.navigationId ).find('.prev').addClass('prev-inactive');
-							if( ( obj.wrapWidth - obj.wrapMargin ) == defaults.itemWidth*defaults.total ) $( '#'+defaults.navigationId ).find('.next').removeClass('next-inactive');
+							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.prev').addClass('prev-inactive');
+							if( ( obj.wrapWidth - obj.wrapMargin ) == defaults.itemWidth*defaults.total ) $( '#'+defaults.navigation ).find('.next').removeClass('next-inactive');
 						}
 						// Trigger Carousel Exec
 						$(this).trigger('endCarousel', [defaults, obj, action]);
@@ -247,8 +248,8 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:last-child').after( $('.crsl-item:first-child', obj) );
 						} else {
-							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.navigationId ).find('.prev').removeClass('prev-inactive');
-							if( ( obj.wrapWidth - obj.wrapMargin ) != defaults.itemWidth*defaults.total ) $( '#'+defaults.navigationId ).find('.next').addClass('next-inactive');
+							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.prev').removeClass('prev-inactive');
+							if( ( obj.wrapWidth - obj.wrapMargin ) != defaults.itemWidth*defaults.total ) $( '#'+defaults.navigation ).find('.next').addClass('next-inactive');
 						}
 						// Trigger Carousel Exec
 						$(this).trigger('endCarousel', [defaults, obj, action]);
