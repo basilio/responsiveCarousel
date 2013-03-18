@@ -15,7 +15,7 @@
 			speed : 'fast',
 			overflow : false,
 			autoRotate : false,
-			navigation : false,
+			navigation : $(this).data('navigation'),
 			itemMinWidth : 0, // think in mobile!
 			itemMargin : 0,
 			itemClassActive : 'crsl-active',
@@ -60,14 +60,14 @@
 				}
 			});
 			
-			// Click Navigation
-			$('#'+defaults.navigation).delegate('.prev, .next', 'click', function(event){
+			// Previous / Next Navigation
+			$('#'+defaults.navigation).delegate('.previous, .next', 'click', function(event){
 				// Prevent default
 				event.preventDefault();
 				// Prepare execute
 				obj.prepareExecute(defaults, obj);
 				// Previous & next action
-				if( $(this).hasClass('prev') && $('.crsl-wrap', obj).find('.crsl-item').index(obj.itemActive) > 0 ){
+				if( $(this).hasClass('previous') && $('.crsl-wrap', obj).find('.crsl-item').index(obj.itemActive) > 0 ){
 					obj.previous(defaults, obj);
 				} else if( $(this).hasClass('next') && ( ( !defaults.infinite && ( (obj.wrapWidth-obj.wrapMargin) == defaults.itemWidth*defaults.total ) ) || ( defaults.infinite ) ) ){
 					obj.next(defaults, obj);
@@ -222,7 +222,7 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 						} else {
-							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.prev').addClass('prev-inactive');
+							if( obj.wrapMargin >= obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.previous').addClass('previous-inactive');
 							if( ( obj.wrapWidth - obj.wrapMargin ) == defaults.itemWidth*defaults.total ) $( '#'+defaults.navigation ).find('.next').removeClass('next-inactive');
 						}
 						// Trigger Carousel Exec
@@ -248,7 +248,7 @@
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:last-child').after( $('.crsl-item:first-child', obj) );
 						} else {
-							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.prev').removeClass('prev-inactive');
+							if( obj.wrapMargin < obj.wrapMarginDefault ) $( '#'+defaults.navigation ).find('.previous').removeClass('previous-inactive');
 							if( ( obj.wrapWidth - obj.wrapMargin ) != defaults.itemWidth*defaults.total ) $( '#'+defaults.navigation ).find('.next').addClass('next-inactive');
 						}
 						// Trigger Carousel Exec

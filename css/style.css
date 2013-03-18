@@ -12,6 +12,10 @@
 .example{
 	padding: 30px 0;
 }
+em{
+	padding: 4px;
+	background: #FCFC80;
+}
 /*----------------------------------- Header */
 #header .container{
 	margin-bottom: 0;

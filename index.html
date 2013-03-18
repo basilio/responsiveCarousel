@@ -89,10 +89,10 @@
 	&lt;/div&gt;
 &lt;/div&gt;
 </pre>
-					<p>Also, you can use nav controls for this, with buttons for previous and next items. This is called with the data attibute as <strong>data-navigation="NAV-ID"</strong>.</p>
+					<p>Also, you can use nav controls for this, with buttons for previous and next items. This is called with the data attibute as <code>data-navigation="NAV-ID"</code>.</p>
 <pre>
 &lt;div id="NAV-ID" class="crsl-nav"&gt;
-	&lt;a href="#" class="prev"&gt;Previous&lt;/a&gt;
+	&lt;a href="#" class="previous"&gt;Previous&lt;/a&gt;
 	&lt;a href="#" class="next"&gt;Next&lt;/a&gt;
 &lt;/div&gt;
 
@@ -108,7 +108,7 @@ jQuery(document).ready(function($){
 </pre>
 					<h3>Default example</h3>
 					<div id="nav-01" class="crsl-nav">
-						<a href="#" class="prev">&laquo; Previous</a>
+						<a href="#" class="previous">&laquo; Previous</a>
 						<a href="#" class="next">Next &raquo;</a>
 					</div>
 					<div class="gallery gallery-01 crsl-items" data-navigation="nav-01">
@@ -179,13 +179,8 @@ jQuery(document).ready(function($){
 								<td></td>
 							</tr>
 							<tr>
-								<td><code>navigationId</code></td>
+								<td><code>navigation</code></td>
 								<td><code>$(this).data('navigation')</code></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><code>itemWidth</code></td>
-								<td><code>$(this).width()</code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -215,6 +210,18 @@ jQuery(document).ready(function($){
 							</tr>
 						</tbody>
 					</table>
+					<p>You could use this options in your javascript detection, like:</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>speed: 1000, autoRotate: 6000</strong> });
+});
+</pre>
+					<p>, or just setup directly in the gallery HTML, using the attribute <code>data-crls=''</code>. <em>Be careful, this works <strong>only with single quotes.</strong></em></p>
+<pre>
+&lt;div class="crsl-items" <strong>data-crsl='{ "speed": 1000, "autoRotate": 6000 }'</strong>&gt;
+	...
+&lt;/div&gt;
+</pre>
 				</section>
 				<section id="examples" class="section">
 					<h2>Examples</h2>
@@ -229,7 +236,7 @@ jQuery(document).ready(function($){
 });
 </pre>
 						<div id="nav-02" class="crsl-nav">
-							<a href="#" class="prev">&laquo; Previous</a>
+							<a href="#" class="previous">&laquo; Previous</a>
 							<a href="#" class="next">Next &raquo;</a>
 						</div>
 						<div class="gallery gallery-02 crsl-items" data-navigation="nav-02">
@@ -266,7 +273,7 @@ jQuery(document).ready(function($){
 });
 </pre>
 						<div id="nav-03" class="crsl-nav">
-							<a href="#" class="prev">&laquo; Previous</a>
+							<a href="#" class="previous">&laquo; Previous</a>
 							<a href="#" class="next">Next &raquo;</a>
 						</div>
 						<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
@@ -303,7 +310,7 @@ jQuery(document).ready(function($){
 });
 </pre>
 						<div id="nav-04" class="crsl-nav">
-							<a href="#" class="prev">&laquo; Previous</a>
+							<a href="#" class="previous">&laquo; Previous</a>
 							<a href="#" class="next">Next &raquo;</a>
 						</div>
 						<div class="gallery gallery-04 crsl-items" data-navigation="nav-04">
@@ -334,7 +341,7 @@ jQuery(document).ready(function($){
 					<!--<div id="option-visible" class="example">
 						<h3>Text Blocks</h3>
 						<div id="nav-03" class="crsl-nav">
-							<a href="#" class="prev">&laquo; Previous</a>
+							<a href="#" class="previous">&laquo; Previous</a>
 							<a href="#" class="next">Next &raquo;</a>
 						</div>
 						<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
