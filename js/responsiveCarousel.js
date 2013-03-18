@@ -160,7 +160,7 @@
 			// Base Configuration: 
 			obj.config = function(defaults, obj){
 				// Width Item
-				defaults.itemWidth = Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visibleDefault );
+				defaults.itemWidth = Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visibleDefault - 1 ) ) ) / defaults.visibleDefault );
 				if( defaults.itemWidth <= defaults.itemMinWidth ){
 					defaults.visible = Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.itemMinWidth ) === 1 ?
 						Math.floor( $(obj).width() / defaults.itemMinWidth ) :
