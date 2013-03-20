@@ -1,4 +1,4 @@
-# responsive*Carousel*
+# responsiveCarousel
 
 Simpe and friendly responsive carousel plugin to integrate into your website!
 
