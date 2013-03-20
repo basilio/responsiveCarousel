@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Responsive Carousel</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="./css/docs.min.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/responsiveCarousel.css">
+	<!-- Scripts -->
+	<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.touchSwipe.min.js"></script>
+	<script type="text/javascript" src="./js/responsiveCarousel.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+			// Defaut use
+			$('.gallery-01').carousel();
+			// Multiple items
+			$('.gallery-02').carousel({ visible: 3, itemMargin: 10, itemMinWidth: 300, swipeNavigation: true });
+			// Overflow: true
+			$('.gallery-03').carousel({ overflow: true, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+			// Rotate automatically
+			$('.gallery-04').carousel({ autoRotate: 4000 });
+			// Nav Affix
+			var affixTop = 0, top = 10;
+			$(window).on('ready resize scroll', function(){
+				affix();
+			});
+			function affix(){
+				var offsetWindow = $(window).scrollTop();
+				var offsetMenu = $('#nav-menu').offset();
+				if( affixTop > 0 && affixTop >= offsetWindow ) {
+					affixTop = 0;
+					$('#nav-menu').css({ position: 'absolute', top: 'inherit' });
+					return;
+				} else if( ( offsetWindow > offsetMenu.top - (top+1) && affixTop === 0 ) || ( offsetWindow > offsetMenu.top && affixTop !== 0 ) ){
+					if( affixTop === 0 ) affixTop = offsetWindow;
+					$('#nav-menu').css({ position: 'fixed', width: '100%', top: (top*-1)+'px' });
+					return;
+				} else {
+					$('#nav-menu').css({ position: 'absolute', top: 'inherit' });
+					return;
+				}
+			}
+		});
+	</script>
+</head>
+<body>
+	<header id="header">
+		<div class="container">
+			<div class="wrap-container">
+				<h1 class="site-title"><span class="normalweight">Responsive</span><span class="space"> </span>Carousel</h1>
+				<blockquote id="about">
+					<p>Simpe and friendly responsive carousel plugin to integrate into your website!</p>
+				</blockquote>
+			</div>
+		</div>
+	</header>
+	<nav id="nav-menu" class="nav nav-menu">
+		<div class="container">
+			<div class="wrap-container">
+				<ul class="nav-bar cf">
+					<li><a href="#how-to-use">How to use</a></li>
+					<li><a href="#options">Options</a></li>
+					<li><a href="#examples">Examples</a></li>
+					<li><a href="#download">Download</a></li>
+					<li><a href="#license">License</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div id="main">
+		<div class="container">
+			<div class="wrap-container">
+				<section id="how-to-use" class="section">
+					<h2>How to use</h2>
+					<p>Gallery markup has three main elements: <strong>.crsl-items</strong> > <strong>.crsl-wrap</strong> > <strong>.crsl-item</strong></p>
+<pre>
+&lt;div class="crsl-items"&gt;
+	&lt;div class="crsl-wrap"&gt;
+		&lt;figure class="crsl-item"&gt;
+			&lt;img src="/path/to/image.jpg"&gt;
+		&lt;/figure&gt;
+		&lt;figure class="crsl-item"&gt;
+			...
+		&lt;/figure&gt;
+		&lt;figure class="crsl-item"&gt;
+			...
+		&lt;/figure&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+					<p>Also, you can use nav controls for this, with buttons for previous and next items. This is called with the data attibute as <code>data-navigation="NAV-ID"</code>.</p>
+<pre>
+&lt;div <strong>id="NAV-ID"</strong> class="crsl-nav"&gt;
+	&lt;a href="#" class="previous"&gt;Previous&lt;/a&gt;
+	&lt;a href="#" class="next"&gt;Next&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="crsl-items" <strong>data-navigation="NAV-ID"</strong>&gt;
+	...
+&lt;/div&gt;
+</pre>
+					<p>Plugin script is called in $(document).ready() detection</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel();
+});
+</pre>
+					<h3>Default example</h3>
+					<div id="nav-01" class="crsl-nav">
+						<a href="#" class="previous">&laquo; Previous</a>
+						<a href="#" class="next">Next &raquo;</a>
+					</div>
+					<div class="gallery gallery-01 crsl-items" data-navigation="nav-01">
+						<div class="crsl-wrap">
+							<figure class="crsl-item">
+								<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+								<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+							</figure>
+							<figure class="crsl-item">
+								<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+								<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+							</figure>
+							<figure class="crsl-item">
+								<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+								<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+							</figure>
+							<figure class="crsl-item">
+								<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+								<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+							</figure>
+							<figure class="crsl-item">
+								<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+								<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+							</figure>
+						</div>
+					</div>
+				</section>
+				<section id="options" class="section">
+					<h2>Options</h2>
+					<p>The following options are available.</p>
+					<table>
+						<thead>
+							<tr>
+								<th class="th-item">Property</th>
+								<th class="th-default">Default value</th>
+								<th class="th-description">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>infinite</code></td>
+								<td><code>true</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>visible</code></td>
+								<td><code>1</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>index</code></td>
+								<td><code>1</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>speed</code></td>
+								<td><code>'fast'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>overflow</code></td>
+								<td><code>false</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>autoRotate</code></td>
+								<td><code>false</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>navigation</code></td>
+								<td><code>$(this).data('navigation')</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>itemMinWidth</code></td>
+								<td><code>0</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>itemMargin</code></td>
+								<td><code>0</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>itemClassActive</code></td>
+								<td><code>'crsl-active'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>keyNavigation</code></td>
+								<td><code>true</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><code>swipeNavigation</code></td>
+								<td><code>false</code></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<p>You could use this options in your javascript detection, like:</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>speed: 1000, autoRotate: 6000</strong> });
+});
+</pre>
+					<p>, or just setup directly in the gallery HTML, using the attribute <code>data-crls=''</code>. <em>Be careful, this works <strong>only with single quotes.</strong></em></p>
+<pre>
+&lt;div class="crsl-items" <strong>data-crsl='{ "speed": 1000, "autoRotate": 6000 }'</strong>&gt;
+	...
+&lt;/div&gt;
+</pre>
+				</section>
+				<section id="examples" class="section">
+					<h2>Examples</h2>
+					<p>Lorem ipsum dolor sit amet</p>
+					<br>
+					<div id="option-visible" class="example cf">
+						<h3>Multiple elements</h3>
+						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>visible: 3, itemMinWidth: 300, itemMargin: 10</strong> });
+});
+</pre>
+						<div id="nav-02" class="crsl-nav">
+							<a href="#" class="previous">&laquo; Previous</a>
+							<a href="#" class="next">Next &raquo;</a>
+						</div>
+						<div class="gallery gallery-02 crsl-items" data-navigation="nav-02">
+							<div class="crsl-wrap">
+								<figure class="crsl-item">
+									<img src="./img/temp/sports.jpg" alt="Feature 1" width="630" height="410" class="wide-image" />
+									<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/nature.jpg" alt="Feature 2" width="630" height="410" class="wide-image" />
+									<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/food.jpg" alt="Feature 3" width="630" height="410" class="wide-image" />
+									<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/people.jpg" alt="Feature 4" width="630" height="410" class="wide-image" />
+									<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/abstract.jpg" alt="Feature 5" width="630" height="410" class="wide-image" />
+									<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+								</figure>
+							</div>
+						</div>
+					</div>
+					<div id="option-overflow" class="example cf">
+						<h3>Overflow: true</h3>
+						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>overflow: true</strong>, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+});
+</pre>
+						<div id="nav-03" class="crsl-nav">
+							<a href="#" class="previous">&laquo; Previous</a>
+							<a href="#" class="next">Next &raquo;</a>
+						</div>
+						<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
+							<div class="crsl-wrap">
+								<figure class="crsl-item">
+									<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+									<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+									<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+									<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+									<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+									<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+								</figure>
+							</div>
+						</div>
+					</div>
+					<div id="option-autorotate" class="example cf">
+						<h3>Rotate Automatically</h3>
+						<p>The width of each item is calculated by dividing the width of <code>.crsl-items</code> by the number of items visible. To avoid having very small elements, you can set the minimum width of each item through <code class="code-option">itemMinWidth</code> option. By default, its value is <code>320</code>. Distance between elements is controlled by the option <code class="code-option">itemMargin</code>.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-item').carousel({ <strong>autoRotate: 4000</strong> });
+});
+</pre>
+						<div id="nav-04" class="crsl-nav">
+							<a href="#" class="previous">&laquo; Previous</a>
+							<a href="#" class="next">Next &raquo;</a>
+						</div>
+						<div class="gallery gallery-04 crsl-items" data-navigation="nav-04">
+							<div class="crsl-wrap">
+								<figure class="crsl-item">
+									<img src="./img/temp/sports.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+									<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/nature.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+									<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+									<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+									<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+								</figure>
+								<figure class="crsl-item">
+									<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+									<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+								</figure>
+							</div>
+						</div>
+					</div>
+					<!--<div id="option-visible" class="example">
+						<h3>Text Blocks</h3>
+						<div id="nav-03" class="crsl-nav">
+							<a href="#" class="previous">&laquo; Previous</a>
+							<a href="#" class="next">Next &raquo;</a>
+						</div>
+						<div class="gallery gallery-03 crsl-items" data-navigation="nav-03">
+							<div class="crsl-wrap">
+								<section class="crsl-item">
+									<h2>Lorem ipsum dolor sit amet</h2>
+									<p>Non pellentesque dignissim sed nascetur magna? Dis porta! Vel risus tincidunt risus! Mattis rhoncus mid phasellus, magna porttitor aenean vel lorem. Urna nec risus?</p>
+									<ul>
+										<li>Vel tempor hac sed? Adipiscing tristique et lundium diam augue nunc?</li>
+										<li>Pulvinar, tincidunt ac diam ut, vel dapibus, pellentesque dignissim elit augue! A, sed, in in, penatibus sit, nec dictumst</li>
+										<li>Rhoncus, mus pulvinar enim! Dictumst. Cras rhoncus, tincidunt nec! Non auctor elit sed arcu risus diam mauris, nec.</li>
+									</ul>
+								</section>
+								<section class="crsl-item">
+									<h2>Porttitor enim, porttitor! Lectus ut, magna arcu</h2>
+									<blockquote>
+										<p>Scelerisque cum sociis et, amet, porttitor. Penatibus, rhoncus, phasellus sagittis? Porttitor a facilisis mus mauris est, dapibus dis dignissim vut risus quis, adipiscing ultrices etiam porttitor ultrices ut.</p>
+									</blockquote>
+									<p>Integer et elit, ac dolor ac? Habitasse duis elementum, elementum lorem placerat cursus aliquet porta ultrices a ut eu! Risus proin in placerat sed dolor cras rhoncus in montes tincidunt? Platea in elit elit vut, egestas mus dis egestas ac urna! Velit urna?</p>
+									<p>Parturient pulvinar augue in egestas, non sit arcu rhoncus magna! Sed nisi lectus pid, parturient lectus rhoncus mauris, est pid cum platea. Cum habitasse augue enim augue sit, in elit velit vel adipiscing. Adipiscing! Et tincidunt cursus platea? Et? Augue, proin rhoncus phasellus platea adipiscing nisi! Magna proin ultricies est?</p>
+								</section>
+								<section class="crsl-item">
+									<h2>Non pellentesque dignissim sed nascetur magna? Dis porta! Vel risus tincidunt risus! Mattis rhoncus mid phasellus</h2>
+									<ol>
+										<li>Elementum velit tincidunt nec dapibus velit mid dignissim, lundium in purus, etiam? Phasellus arcu?</li>
+										<li>Dolor et nunc magnis platea etiam et elementum, a parturient, aliquam, tincidunt ac parturient</li>
+										<li>A aliquam pid vut, tincidunt ut amet dignissim. Et vel adipiscing risus sit elementum porta ac, purus arcu sociis!</li>
+										<li>In quis augue diam elementum! Magnis dapibus, mus mattis? Nunc penatibus elit pellentesque.</li>
+										<li>Pid natoque aliquam diam pellentesque adipiscing, nisi. Sit, mus ac, turpis et nec nunc, cras facilisis. Sed et! Pulvinar vut amet rhoncus ac</li>
+									</ol>
+								</section>
+								<section class="crsl-item">
+									<h2>Placerat mid turpis hac integer nascetur ut ridiculus lundium placerat sit integer</h2>
+									<p>Integer et elit, ac dolor ac? Habitasse duis elementum, elementum lorem placerat cursus aliquet porta ultrices a ut eu! Risus proin in placerat sed dolor cras rhoncus in montes tincidunt? Platea in elit elit vut, egestas mus dis egestas ac urna! Velit urna? Ultrices parturient diam, ridiculus! Adipiscing montes? Parturient pulvinar augue in egestas, non sit arcu rhoncus magna! Sed nisi lectus pid, parturient lectus rhoncus mauris, est pid cum platea. Cum habitasse augue enim augue sit, in elit velit vel adipiscing. Adipiscing! Et tincidunt cursus platea? Et? Augue, proin rhoncus phasellus platea adipiscing nisi! Magna proin ultricies est? Et tempor! Mauris mauris lectus placerat et duis, lorem scelerisque pid nascetur. Mauris sagittis tincidunt tincidunt egestas augue turpis parturient.</p>
+									<p>Porttitor enim, porttitor! Lectus ut, magna arcu, elementum velit tincidunt nec dapibus velit mid dignissim, lundium in purus, etiam? Phasellus arcu? Dolor et nunc magnis platea etiam et elementum, a parturient, aliquam, tincidunt ac parturient, a aliquam pid vut, tincidunt ut amet dignissim. Et vel adipiscing risus sit elementum porta ac, purus arcu sociis! In quis augue diam elementum! Magnis dapibus, mus mattis? Nunc penatibus elit pellentesque. Pid natoque aliquam diam pellentesque adipiscing, nisi. Sit, mus ac, turpis et nec nunc, cras facilisis. Sed et! Pulvinar vut amet rhoncus ac scelerisque vut amet amet. Sagittis montes magna odio a et elementum enim ac! Nisi in proin, et. Vel nec mid nec porta aenean odio! Dolor pid odio elementum porttitor.</p>
+								</section>
+							</div>
+						</div>
+					</div>-->
+				</section>
+				<section id="download" class="section">
+					<h2>Download</h2>
+				</section>
+				<section id="license" class="section">
+					<h2>License</h2>
+					
+					<p>Copyright (c) 2013 Basilio Cáceres (<a href="http://www.isotipo.net" rel="follow">http://www.isotipo.net</a>)</p>
+					
+					<p>Permission is hereby granted, free of charge, to any person obtaining
+					a copy of this software and associated documentation files (the
+					"Software"), to deal in the Software without restriction, including
+					without limitation the rights to use, copy, modify, merge, publish,
+					distribute, sublicense, and/or sell copies of the Software, and to
+					permit persons to whom the Software is furnished to do so, subject to
+					the following conditions:</p>
+					
+					<p>The above copyright notice and this permission notice shall be
+					included in all copies or substantial portions of the Software.</p>
+					
+					<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+					EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+					MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+					NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+					LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+					OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+					WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+				</section>
+			</div>
+		</div>
+	</div>
+	<footer id="footer">
+		<div class="container cf">
+			
+		</div>
+	</footer>
+</body>
+</html>
