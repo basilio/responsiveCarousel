@@ -29,11 +29,12 @@ em{
 }
 /*----------------------------------- Nav */
 #nav-menu{
-	z-index: 100;
+	width: 100%;
+	z-index: 10000;
 	background-color: rgba(255, 255, 255, .85);
 }
 #nav-menu .container{
-	margin-bottom: 0;
+	margin: 0 auto;
 }
 .nav-bar{
 	margin: 0 0 10px 0;
@@ -119,7 +120,7 @@ table tbody tr:nth-child(2n+1){
 /*----------------------------------- Media Queries */
 @media only screen and ( min-width : 1360px ){
 	.container{
-		width: 1240px;
+		width: 1140px;
 	}
 }
 @media only screen and ( min-width : 720px ) and ( max-width : 960px ){

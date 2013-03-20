@@ -165,6 +165,7 @@
 					defaults.visible = Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.itemMinWidth ) === 1 ?
 						Math.floor( $(obj).width() / defaults.itemMinWidth ) :
 						Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.itemMinWidth );
+					defaults.visible = defaults.visible < 1 ? 1 : defaults.visible;
 					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).width() ) : Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visible );
 				}
 				// Set Variables
