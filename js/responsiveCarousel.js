@@ -10,7 +10,6 @@
 		var defaults = {
 			infinite : true,
 			visible : 1,
-			index : 1,
 			speed : 'fast',
 			overflow : false,
 			autoRotate : false,
@@ -142,8 +141,11 @@
 				$(obj).css({ width: '100%' });
 				// .crls-item
 				$(obj).find('.crsl-item').css({ position: 'relative', float: 'left', overflow: 'hidden', height: 'auto' });
-				// .wide-image
+				// .crsl-item > .wide-image
 				$(obj).find('.wide-image').css({ display: 'block', width: '100%', height: 'auto' });
+				// .crsl-item > iframes (videos)
+				$(obj).find('.crsl-item iframe').attr({ width: '100%' });
+				
 				
 				// Declare the item ative
 				$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
