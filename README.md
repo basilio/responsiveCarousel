@@ -1,14 +1,16 @@
 # responsiveCarousel
 
-Simpe and friendly responsive carousel plugin to integrate into your website!
+Simple and friendly responsive carousel plugin for jQuery.
 
 ## Features
 
-* Single or Multiple Images
-* AutoRotate
-* Multiples Carousels in one page
-* KeyBoard and Swipe Navigation
-* Linked Carousels
+* Items adapts responsively
+* Accept any type of content
+* Single or multiple visible elements
+* Multiples galleries in one page
+* AutoRotate option
+* Swipe and keyboard navigation by default
+* Allows linked galleries
 
 ## Documentation
 
