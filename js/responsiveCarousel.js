@@ -1,26 +1,22 @@
-/**
- * Simple Carousel
- * HTML Structure:
- * .crsl-items > .crsl-wrap > .crsl-item
- * @author @basilio
- * @version 0.2
- **/
+/*! responsiveCarousel.JS - v1.0
+ * http://basilio.github.com/responsiveCarousel
+ *
+ * Copyright (c) 2013 Basilio Cáceres <basilio.caceres@gmail.com>;
+ * Licensed under the MIT license */
+
 (function($){
 	"use strict";
 	$.fn.carousel = function(args){
 		var defaults = {
 			infinite : true,
 			visible : 1,
-			index : 1,
 			speed : 'fast',
 			overflow : false,
 			autoRotate : false,
 			navigation : $(this).data('navigation'),
-			itemMinWidth : 0, // think in mobile!
+			itemMinWidth : 0,
 			itemMargin : 0,
-			itemClassActive : 'crsl-active',
-			keyNavigation : true,
-			swipeNavigation : false
+			itemClassActive : 'crsl-active'
 		}
 		return $(this).each( function(){
 			// Set Object
@@ -53,13 +49,6 @@
 				}
 			});
 			
-			// Bind ResizeEnd on Window: use for recall obj.config() with his variables
-			$(window).on('resizeEnd', function(){
-				if( defaults.itemWidth !== $(obj).width() ){
-					obj.config(defaults, obj);
-				}
-			});
-			
 			// Previous / Next Navigation
 			$('#'+defaults.navigation).delegate('.previous, .next', 'click', function(event){
 				// Prevent default
@@ -73,83 +62,94 @@
 					obj.next(defaults, obj);
 				}
 			});
-			
+
+			// Bind ResizeEnd on Window: use for recall obj.config() with his variables
+			$(window).on('resizeEnd', function(){
+				if( defaults.itemWidth !== $(obj).outerWidth() ){
+					obj.config(defaults, obj);
+				}
+			});
+
 			// Keypress Navigation
-			if( defaults.keyNavigation === true ){
-				var mouseOverCarousel = false;
-				$(window).on('mouseover', function(event){
-					// Detect
-					if (event.target) { 
-						var current = event.target; 
-					} else if (event.srcElement) { 
-						var current = event.srcElement; 
-					}
-					if( $.contains(obj, current) || $(current).parents('.crsl-nav').attr('id') == $(obj).data('navigation') || $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
-						mouseOverCarousel = true;
-					} else {
-						mouseOverCarousel = false;
-					}
-					return false;
-				});
-				$(window).on('keydown', function(event){
-					// Previous & next action
-					if( event.keyCode === 37 && mouseOverCarousel === true ){
-						// Prepare execute
-						obj.prepareExecute(defaults, obj);
-						// Previous
-						obj.previous(defaults, obj);
-					} else if( event.keyCode === 39 && mouseOverCarousel === true ){
-						// Prepare execute
-						obj.prepareExecute(defaults, obj);
-						// Next
-						obj.next(defaults, obj);
-					}
-					return;
-				});
-			}
+			var overCarousel = false;
+			$(window).on('mouseover', function(event){
+				// Detect
+				if (event.target) { 
+					var current = event.target; 
+				} else if (event.srcElement) { 
+					var current = event.srcElement; 
+				}
+				if( $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
+					overCarousel = true;
+				} else {
+					overCarousel = false;
+				}
+				return false;
+			});
+			$(window).on('keydown', function(event){
+				// Previous & next action
+				if( event.keyCode === 37 && overCarousel === true ){
+					// Prepare execute
+					obj.prepareExecute(defaults, obj);
+					// Previous
+					obj.previous(defaults, obj);
+				} else if( event.keyCode === 39 && overCarousel === true ){
+					// Prepare execute
+					obj.prepareExecute(defaults, obj);
+					// Next
+					obj.next(defaults, obj);
+				}
+				return;
+			});
 			
 			// Swipe Navigation
-			if( defaults.swipeNavigation === true ){
-				$(obj).swipe({
-					swipe : function(event, direction, distance, duration, fingerCount) {
-						// Prepare execute
-						obj.prepareExecute(defaults, obj);
-						// Previous & next action
-						if( direction == 'left' ){
-							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]').lenght > 1 ){
-								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]');
-								/**
-								 * TO-DO: execute swipe on all related elements
-								 **/
-								obj.next(defaults, obj);
-							} else {
-								obj.next(defaults, obj);
-							}
-						} else if( direction == 'right' ) {
-							if( $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]').length > 1 ){
-								var customObj = $(document).find('.crsl-items[data-navigation="'+defaults.navigation+'"]');
-								/**
-								 * TO-DO: execute swipe on all related elements
-								 **/
-								obj.previous(defaults, obj);
-							} else {
-								obj.previous(defaults, obj);
-							}
-						}
-					},
-					threshold : 0
-				});
-			}
+			var onCarousel = false;
+			$(document).hammer().on( 'swipe', function(event){
+				// Detect
+				if (event.target) { 
+					var current = event.target; 
+				} else if (event.srcElement) { 
+					var current = event.srcElement; 
+				}
+				if( $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
+					onCarousel = true;
+				} else {
+					onCarousel = false;
+				}
+				
+				// Previous & next action
+				if( event.gesture.direction == 'left' && onCarousel === true ){
+					// Prepare execute
+					obj.prepareExecute(defaults, obj);
+					// Next
+					obj.next(defaults, obj);
+				} else if( event.gesture.direction == 'right' && onCarousel === true  ) {
+					// Prepare execute
+					obj.prepareExecute(defaults, obj);
+					// Previous
+					obj.previous(defaults, obj);
+				}
+			});
 			
 			obj.init = function(defaults, obj){
 				// Set some default vars
-				defaults.total = $(this).find('.crsl-item').length;
-				defaults.itemWidth = $(this).width();
+				defaults.total = $(obj).find('.crsl-item').length;
+				defaults.itemWidth = $(obj).outerWidth();
 				defaults.visibleDefault = defaults.visible;
-				// Force some styles on items
-				$(obj).find('.crsl-item').css({ position : 'relative', float : 'left', overflow: 'hidden', height: 'auto' });
+				
+				// .crsl-items
+				$(obj).css({ width: '100%' });
+				// .crls-item
+				$(obj).find('.crsl-item').css({ position: 'relative', float: 'left', overflow: 'hidden', height: 'auto' });
+				// .crsl-item > .wide-image
+				$(obj).find('.wide-image').css({ display: 'block', width: '100%', height: 'auto' });
+				// .crsl-item > iframes (videos)
+				$(obj).find('.crsl-item iframe').attr({ width: '100%' });
+				
+				
 				// Declare the item ative
 				$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
+				// 
 				// Move last element to begin for infinite carousel
 				if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 				// if defaults.overflow
@@ -162,11 +162,11 @@
 				// Width Item
 				defaults.itemWidth = Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visibleDefault - 1 ) ) ) / defaults.visibleDefault );
 				if( defaults.itemWidth <= defaults.itemMinWidth ){
-					defaults.visible = Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.itemMinWidth ) === 1 ?
-						Math.floor( $(obj).width() / defaults.itemMinWidth ) :
-						Math.floor( ( $(obj).width() - defaults.itemMargin ) / defaults.itemMinWidth );
+					defaults.visible = Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.itemMinWidth ) === 1 ?
+						Math.floor( $(obj).outerWidth() / defaults.itemMinWidth ) :
+						Math.floor( ( $(obj).outerWidth() - defaults.itemMargin ) / defaults.itemMinWidth );
 					defaults.visible = defaults.visible < 1 ? 1 : defaults.visible;
-					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).width() ) : Math.floor( ( $(obj).width() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visible );
+					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).outerWidth() ) : Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visible );
 				}
 				// Set Variables
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
