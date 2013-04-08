@@ -7,7 +7,7 @@ Simple and friendly responsive carousel plugin for jQuery.
 * Items adapts responsively
 * Accept any type of content
 * Single or multiple visible elements
-* Multiples galleries in one page
+* Multiple galleries in one page
 * AutoRotate option
 * Swipe and keyboard navigation by default
 * Allows linked galleries
