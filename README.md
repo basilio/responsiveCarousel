@@ -1,6 +1,6 @@
 # responsiveCarousel
 
-Simple and friendly responsive carousel plugin to integrate into your website!
+Simple and friendly responsive carousel plugin for jQuery.
 
 ## Features
 
