@@ -1,7 +1,7 @@
 {
     "name": "responsiveCarousel",
     "title": "Responsive Carousel",
-    "description": "Simple and friendly responsive carousel plugin for jQuery.",
+    "description": "Simple and friendly responsive carousel plugin for jQuery. This library accept any type of content, single or multiple visible elements and multiple galleries in one page. Also, you can navigate with swipe (using hammer.js) and keyboard arrows by default, customice autoRotate options and more!",
     "keywords": [
         "responsive",
         "gallery",
