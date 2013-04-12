@@ -1,0 +1,37 @@
+{
+    "name": "responsiveCarousel",
+    "title": "Responsive Carousel",
+    "description": "Simple and friendly responsive carousel plugin for jQuery.",
+    "keywords": [
+        "responsive",
+        "gallery",
+        "animation",
+        "swipe",
+        "keyboard"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Basilio Cáceres",
+        "email": "basilio.caceres@gmail.com",
+        "url": "http://isotipo.net"
+    },
+    "maintainers": [
+        {
+            "name": "Basilio Cáceres",
+            "email": "basilio.caceres@gmail.com",
+            "url": "http://isotipo.net"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/basilio/responsiveCarousel/blob/master/LICENSE.txt"
+        }
+    ],
+    "bugs": "https://github.com/basilio/responsiveCarousel/issues",
+    "homepage": "http://basilio.github.io/responsiveCarousel/",
+    "docs": "http://basilio.github.io/responsiveCarousel/",
+    "dependencies": {
+        "jquery": ">=1.7"
+    }
+}
