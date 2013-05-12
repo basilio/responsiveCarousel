@@ -29,6 +29,22 @@
 			$('.gallery-05').carousel({ visible: 3, itemMinWidth: 300, itemMargin: 20 });
 			// Video Content
 			$('.gallery-06').carousel({ visible: 2, itemMinWidth: 400, itemMargin: 10 });
+			// Styling crontrols
+			$('.gallery-07').carousel({ visible: 4, itemMinWidth: 200, itemMargin: 10 });
+			$(".gallery-07").on("initCarousel", function(event, defaults, obj){
+				// Hide controls
+				$('#'+defaults.navigation).find('.previous, .next').css({ opacity: 0 });
+				// Show controls on gallery hover
+				// #gallery-07 wraps .crsl-items and .crls-nav
+				// .stop() prevent queue
+				$('#gallery-07').hover( function(){
+					$(this).find('.previous').css({ left: 0 }).stop(true, true).animate({ left: '20px', opacity: 1 });
+					$(this).find('.next').css({ right: 0 }).stop(true, true).animate({ right: '20px', opacity: 1 });
+				}, function(){
+					$(this).find('.previous').animate({ left: 0, opacity: 0 });
+					$(this).find('.next').animate({ right: 0, opacity: 0 });
+				});
+			});
 		});
 	</script>
 </head>
@@ -448,6 +464,57 @@ jQuery(document).ready(function($){
 								<section class="crsl-item">
 									<iframe src="http://player.vimeo.com/video/25850891?color=ffffff" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 								</section>
+							</div>
+						</div>
+					</div>
+					<div id="styling-controls" class="example cf">
+						<h3>Styling conrols</h3>
+						<p>Using que custom events to create special behaviors.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>overflow: true</strong>, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+	$('.crsl-items').on('initCarousel', function(event, defaults, obj){
+		// Hide controls
+		$('#'+defaults.navigation).find('.previous, .next').css({ opacity: 0 });
+		// Show controls on gallery hover
+		// #gallery-07 wraps .crsl-items and .crls-nav
+		// .stop() prevent queue
+		$('#gallery-07').hover( function(){
+			$(this).find('.previous').css({ left: 0 }).stop(true, true).animate({ left: '20px', opacity: 1 });
+			$(this).find('.next').css({ right: 0 }).stop(true, true).animate({ right: '20px', opacity: 1 });
+		}, function(){
+			$(this).find('.previous').animate({ left: 0, opacity: 0 });
+			$(this).find('.next').animate({ right: 0, opacity: 0 });
+		});
+	});
+});
+</pre>
+						<div id="gallery-07">
+							<div id="nav-07" class="crsl-nav">
+								<a href="#" class="previous">&lt;</a>
+								<a href="#" class="next">&gt;</a>
+							</div>
+							<div class="gallery gallery-07 crsl-items" data-navigation="nav-07">
+								<div class="crsl-wrap">
+									<figure class="crsl-item">
+										<img src="./img/temp/sports.jpg" alt="Feature 1" width="480" height="320" class="wide-image" />
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/nature.jpg" alt="Feature 2" width="480" height="320" class="wide-image" />
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/food.jpg" alt="Feature 3" width="480" height="320" class="wide-image" />
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/abstract.jpg" alt="Feature 5" width="480" height="320" class="wide-image" />
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/people.jpg" alt="Feature 4" width="480" height="320" class="wide-image" />
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/animals.jpg" alt="Feature 6" width="480" height="320" class="wide-image" />
+									</figure>
+								</div>
 							</div>
 						</div>
 					</div>
