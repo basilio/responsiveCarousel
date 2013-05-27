@@ -103,33 +103,35 @@
 			});
 			
 			// Swipe Navigation
-			var onCarousel = false;
-			$(document).hammer().on( 'swipe', function(event){
-				// Detect
-				if (event.target) { 
-					var current = event.target; 
-				} else if (event.srcElement) { 
-					var current = event.srcElement; 
-				}
-				if( $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
-					onCarousel = true;
-				} else {
-					onCarousel = false;
-				}
-				
-				// Previous & next action
-				if( event.gesture.direction == 'left' && onCarousel === true ){
-					// Prepare execute
-					obj.prepareExecute(defaults, obj);
-					// Next
-					obj.next(defaults, obj);
-				} else if( event.gesture.direction == 'right' && onCarousel === true  ) {
-					// Prepare execute
-					obj.prepareExecute(defaults, obj);
-					// Previous
-					obj.previous(defaults, obj);
-				}
-			});
+			if( typeof( $(document).hammer ) == 'function' ){
+				var onCarousel = false;
+				$(document).hammer().on( 'swipe', function(event){
+					// Detect
+					if (event.target) { 
+						var current = event.target; 
+					} else if (event.srcElement) { 
+						var current = event.srcElement; 
+					}
+					if( $(current).parents('.crsl-items').data('navigation') == $(obj).data('navigation') ){
+						onCarousel = true;
+					} else {
+						onCarousel = false;
+					}
+					
+					// Previous & next action
+					if( event.gesture.direction == 'left' && onCarousel === true ){
+						// Prepare execute
+						obj.prepareExecute(defaults, obj);
+						// Next
+						obj.next(defaults, obj);
+					} else if( event.gesture.direction == 'right' && onCarousel === true  ) {
+						// Prepare execute
+						obj.prepareExecute(defaults, obj);
+						// Previous
+						obj.previous(defaults, obj);
+					}
+				});
+			}
 			
 			obj.init = function(defaults, obj){
 				// Set some default vars
