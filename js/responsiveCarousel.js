@@ -151,12 +151,16 @@
 				
 				// Declare the item ative
 				$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
-				// 
 				// Move last element to begin for infinite carousel
-				if( defaults.infinite ) $(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
+				if( defaults.infinite && ( defaults.visible < defaults.total ) ){
+					$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );	
+				} 
 				// if defaults.overflow
-				if( defaults.overflow === false ) $(obj).css({ overflow: 'hidden' });
-				else $('html, body').css({ 'overflow-x': 'hidden' });
+				if( defaults.overflow === false ){
+					$(obj).css({ overflow: 'hidden' });
+				} else {
+					$('html, body').css({ 'overflow-x': 'hidden' });
+				}
 			}
 			
 			// Base Configuration: 
@@ -169,13 +173,27 @@
 						Math.floor( ( $(obj).outerWidth() - defaults.itemMargin ) / defaults.itemMinWidth );
 					defaults.visible = defaults.visible < 1 ? 1 : defaults.visible;
 					defaults.itemWidth = defaults.visible === 1 ? Math.floor( $(obj).outerWidth() ) : Math.floor( ( $(obj).outerWidth() - ( defaults.itemMargin * ( defaults.visible - 1 ) ) ) / defaults.visible );
+				} else {
+					defaults.visible = defaults.visibleDefault;
 				}
 				// Set Variables
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
-				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite ? parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 ) : 0 ;
+				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite && defaults.visible < defaults.total ? parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 ) : 0 ;
+				// Move last element to begin for infinite carousel
+				if( defaults.infinite && ( defaults.visible < defaults.total ) && ( $(obj).find('.crsl-item').index(obj.itemActive) == 0 ) ){
+					$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
+					obj.wrapMargin = obj.wrapMarginDefault = parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 );
+				}
 				// Modify Styles
 				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', marginLeft: obj.wrapMargin });
 				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px', marginRight : defaults.itemMargin+'px' });
+				// Condition if total <= visible
+				if( defaults.visible >= defaults.total ){
+					defaults.autoRotate = false;
+					$('#'+defaults.navigation).hide();
+				} else {
+					$('#'+defaults.navigation).show();
+				}
 			}
 			
 			// Prepare Execute
