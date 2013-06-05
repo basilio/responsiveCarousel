@@ -15,6 +15,7 @@
 			autoRotate : false,
 			navigation : $(this).data('navigation'),
 			itemMinWidth : 0,
+			itemEqualHeight : false,
 			itemMargin : 0,
 			itemClassActive : 'crsl-active'
 		}
@@ -28,12 +29,18 @@
 			
 			// Carousel Config
 			$(window).ready(function(){
+				// Trigger Init Event Carousel
+				$(obj).trigger('initCarousel', [defaults, obj]);
 				// Init some defaults styles
 				obj.init(defaults, obj);
 				// This configure and margins and variables when load and resize
 				obj.config(defaults, obj);
-				// Trigger Init Event Carousel
-				$(obj).trigger('initCarousel', [defaults, obj]);
+				// Condition if itemEqualHeights
+				if( defaults.itemEqualHeight !== false ){
+					$(window).load( function(){
+						obj.equalHeights(defaults, obj);
+					});
+				}
 				// Resize End event
 				$(window).resize(function(){
 					if( this.resizeTO ) clearTimeout(this.resizeTO);
@@ -180,13 +187,15 @@
 				obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
 				obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite && defaults.visible < defaults.total ? parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 ) : 0 ;
 				// Move last element to begin for infinite carousel
-				if( defaults.infinite && ( defaults.visible < defaults.total ) && ( $(obj).find('.crsl-item').index(obj.itemActive) == 0 ) ){
+				if( defaults.infinite && ( defaults.visible < defaults.total ) && ( $(obj).find('.crsl-item.'+defaults.itemClassActive).index() === 0 ) ){
 					$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 					obj.wrapMargin = obj.wrapMarginDefault = parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1 );
 				}
 				// Modify Styles
 				$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+'px', marginLeft: obj.wrapMargin });
 				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px', marginRight : defaults.itemMargin+'px' });
+				// Equal Height Configuration
+				obj.equalHeights(defaults, obj);
 				// Condition if total <= visible
 				if( defaults.visible >= defaults.total ){
 					defaults.autoRotate = false;
@@ -222,6 +231,19 @@
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
 				obj.next(defaults, obj);
+				return true;
+			}
+
+			// Equal Heights
+			obj.equalHeights = function( defaults, obj ){
+				if( defaults.itemEqualHeight !== false ){
+					var tallest = 0;
+					$(obj).find('.crsl-item').each( function(){
+						$(this).css({ 'height': 'auto' });
+						if ( $(this).outerHeight() > tallest ){ tallest = $(this).outerHeight(); }
+					});
+					$(obj).find('.crsl-item').css({ height: tallest+'px' });
+				}
 				return true;
 			}
 			
