@@ -11,8 +11,7 @@
 	<!-- Scripts -->
 	<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="./js/modernizr-2.5.3.custom.min.js"></script>
-	<script type="text/javascript" src="./js/jquery.hammer.min.js"></script>
-	<script type="text/javascript" src="./js/responsiveCarousel.min.js"></script>
+	<script type="text/javascript" src="./js/responsiveCarousel.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			// Features Gallery
@@ -24,14 +23,14 @@
 			// Overflow: true
 			$('.gallery-03').carousel({ overflow: true, visible: 2, itemMinWidth: 400, itemMargin: 10 });
 			// Rotate automatically
-			$('.gallery-04').carousel({ autoRotate: 4000, visible: 2, itemMinWidth: 400, itemMargin: 10 });
+			$('.gallery-04').carousel({ autoRotate: 4000, visible: 2, speed: 800, easing: 'easeOutExpo', itemMinWidth: 400, itemMargin: 10 });
 			// Text Content
 			$('.gallery-05').carousel({ visible: 3, itemMinWidth: 300, itemMargin: 20 });
 			// Video Content
 			$('.gallery-06').carousel({ visible: 2, itemMinWidth: 400, itemMargin: 10 });
 			// Styling crontrols
 			$('.gallery-07').carousel({ overflow: true, visible: 3, itemMinWidth: 250, itemMargin: 10 });
-			$(".gallery-07").on("initCarousel", function(event, defaults, obj){
+			$('.gallery-07').on("initCarousel", function(event, defaults, obj){
 				// Hide controls
 				$('#'+defaults.navigation).find('.previous, .next').css({ opacity: 0 });
 				// Show controls on gallery hover
@@ -45,6 +44,8 @@
 					$(this).find('.next').animate({ right: 0, opacity: 0 });
 				});
 			});
+			// Carousel as grid
+			$('.gallery-08').carousel({ carousel: false, visible: 3, itemMinWidth: 250, itemMargin: 10 });
 		});
 	</script>
 </head>
@@ -86,7 +87,6 @@
 							<li>Multiple galleries in one page</li>
 							<li>AutoRotate option</li>
 							<li>Swipe and keyboard navigation by default</li>
-							<li>Allows linked galleries</li>
 						</ul>
 						<a href="https://github.com/basilio/responsiveCarousel" class="download">Download! <small>9.8 Kb - 5,4 Kb minified</small></a>
 					</div>
@@ -123,10 +123,9 @@
 				</section>
 				<section id="how-to-use" class="section cf">
 					<h2>How to use</h2>
-					<p>This plugin works with jQuery 1.7+, because use the <code>.on()</code> method to attach events. Additionaly, the library use <a href="http://eightmedia.github.io/hammer.js/">hammer.js</a> for <code>swipe</code> events.</p>
+					<p>This plugin works with jQuery 1.7+, because use the <code>.on()</code> method to bind events.</p>
 <pre>
 &lt;script type="text/javascript" src="./jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="./jquery.hammer.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="./responsiveCarousel.js"&gt;&lt;/script&gt;
 </pre>
 					<p>Gallery markup has three main elements: <strong>.crsl-items</strong> > <strong>.crsl-wrap</strong> > <strong>.crsl-item</strong></p>
@@ -195,6 +194,7 @@ jQuery(document).ready(function($){
 				<section id="options" class="section">
 					<h2>Options</h2>
 					<p>The following options are available.</p>
+					<div class="overflow-table">
 					<table>
 						<thead>
 							<tr>
@@ -249,8 +249,20 @@ jQuery(document).ready(function($){
 								<td><code>'crsl-active'</code></td>
 								<td>Class HTML for active item</td>
 							</tr>
+							<tr>
+								<td><code>imageWideClass</code></td>
+								<td><code>'wide-image'</code></td>
+								<td>If you want 100% width images within each. CRSL-item, use this class or whatever you want.</td>
+							</tr>
+							<tr>
+								<td><code>carousel</code></td>
+								<td><code>true</code></td>
+								<td><span class="label-new">New!</span> You can disable default carousel behavior and use it to create a basic column system grid.</td>
+							</tr>
 						</tbody>
 					</table>
+					</div>
+					<br>
 					<p>You could use this options in the javascript detection, like:</p>
 <pre>
 jQuery(document).ready(function($){
@@ -523,12 +535,59 @@ jQuery(document).ready(function($){
 							</div>
 						</div>
 					</div>
+					<div id="carousel-grid" class="example cf">
+						<h3>Carousel: false | basic grid</h3>
+						<p>This can help you any time! If you need to create a basic grid of elements, you could disable carousel function using <code>carousel: false</code>, and the horizontal list will show on as a grid list, with the number of columns you specify in the <code>visible</code> option.</p>
+<pre>
+jQuery(document).ready(function($){
+	$('.crsl-items').carousel({ <strong>carousel: false</strong>, visible: 3, itemMinWidth: 250, itemMargin: 10 });
+});
+</pre>
+						<div id="gallery-08">
+							<div class="gallery gallery-08 crsl-items">
+								<div class="crsl-wrap">
+									<figure class="crsl-item">
+										<img src="./img/temp/nature.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+										<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/sports.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+										<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+										<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+										<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+										<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/sports.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+										<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+										<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+									</figure>
+									<figure class="crsl-item">
+										<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+										<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+									</figure>
+								</div>
+							</div>
+						</div>
+					</div>
 				</section>
 				<section id="license" class="section">
 					<h2>License</h2>
-					
+
 					<p>Copyright (c) 2013 Basilio Cáceres (<a href="http://www.isotipo.net" rel="follow">http://www.isotipo.net</a>)</p>
-					
+
 					<p>Permission is hereby granted, free of charge, to any person obtaining
 					a copy of this software and associated documentation files (the
 					"Software"), to deal in the Software without restriction, including
@@ -536,10 +595,10 @@ jQuery(document).ready(function($){
 					distribute, sublicense, and/or sell copies of the Software, and to
 					permit persons to whom the Software is furnished to do so, subject to
 					the following conditions:</p>
-					
+
 					<p>The above copyright notice and this permission notice shall be
 					included in all copies or substantial portions of the Software.</p>
-					
+
 					<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 					EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 					MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -555,7 +614,9 @@ jQuery(document).ready(function($){
 		<div class="container">
 			<div class="wrap-container">
 				<address>
-					<p>For any comment or bug (even on the english translation :P ), please leave your impression in the issues tracking or contact me: basilio.caceres[at]gmail.com<br>Follow me on Twitter: <a href="http://www.twitter.com/basilio">@basilio</a></p>
+					<p>For any comment or bug (even on the english translation), please leave your impression in the <a href="https://github.com/basilio/responsiveCarousel/issues">issues tracking</a> or contact me: basilio.caceres[at]gmail.com<br>Follow me on Twitter: <a href="http://www.twitter.com/basilio">@basilio</a><br>
+					All pictures here are from <a href="http://www.lorempixel.com">lorempixel.com</a>
+					</p>
 				</address>
 			</div>
 		</div>

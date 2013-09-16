@@ -125,11 +125,16 @@ em{
 pre{
 	margin-bottom: 20px;
 	padding: 15px 15px 10px 15px;
-	font-size: 85%;
-	color: #333;
+	font-size: 12px;
+	line-height: 140%;
+	color: #666;
 	background: #EAEAEA;
 	border-radius: 10px;
 	overflow: auto;
+}
+pre:hover{
+	color: #000;
+	background: #F3F3F3;
 }
 .normalweight{
 	font-weight: 100;
@@ -137,6 +142,16 @@ pre{
 .code-option{
 	padding: 2px 3px;
 	background-color: #FF0;
+}
+.label-new{
+	margin-right: 3px;
+	padding: 1px 3px;
+	color: #FFF;
+	background: #F60;
+	/* border radius */
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 /*----------------------------------- Table */
 table{
@@ -295,5 +310,9 @@ table tbody tr:nth-child(2n+1){
 	}
 	.nav-menu li a{
 		padding: 15px 7px;
+	}
+	.overflow-table{
+		width: 100%;
+		overflow: visible;
 	}
 }
