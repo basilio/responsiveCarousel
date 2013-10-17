@@ -342,10 +342,11 @@
 			if( defaults.isTouch ){
 				$(obj).on('touchstart', function(e){
 					$(obj).addClass('touching');
-					defaults.startCoords = e.originalEvent.targetTouches[0];
-					defaults.endCoords = e.originalEvent.targetTouches[0];
+					defaults.startCoords.pageX = defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
+					defaults.startCoords.pageY = defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
 					$('.touching').on('touchmove',function(e){
-						defaults.endCoords = e.originalEvent.targetTouches[0];
+						defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
+						defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
 						if( Math.abs( parseInt( defaults.endCoords.pageX-defaults.startCoords.pageX, 10 ) ) > Math.abs( parseInt( defaults.endCoords.pageY-defaults.startCoords.pageY, 10 ) ) ){
 							e.preventDefault();
 							e.stopPropagation();
