@@ -357,9 +357,11 @@
 					e.stopPropagation();
 					defaults.swipeDistance = defaults.endCoords.pageX - defaults.startCoords.pageX;
 					if( defaults.swipeDistance >= defaults.swipeMinDistance ){
+						obj.prepareExecute();
 						// swipeLeft
 						obj.previous();
 					} else if( defaults.swipeDistance <= - defaults.swipeMinDistance ){
+						obj.prepareExecute();
 						// swipeRight
 						obj.next();
 					}
