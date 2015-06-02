@@ -11,7 +11,7 @@
 	<!-- Scripts -->
 	<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="./js/modernizr-2.5.3.custom.min.js"></script>
-	<script type="text/javascript" src="./js/responsiveCarousel.js"></script>
+	<script type="text/javascript" src="./js/responsiveCarousel.min.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			// Features Gallery
@@ -46,6 +46,8 @@
 			});
 			// Carousel as grid
 			$('.gallery-08').carousel({ carousel: false, visible: 3, itemMinWidth: 250, itemMargin: 10 });
+			// Carousel with dots
+			$('.gallery-09').carousel({ visible: 2, overflow: true, itemMinWidth: 250, itemMargin: 10 });
 		});
 	</script>
 </head>
@@ -575,6 +577,85 @@ jQuery(document).ready(function($){
 										<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
 									</figure>
 									<figure class="crsl-item">
+										<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+										<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+									</figure>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="carousel-grid" class="example cf">
+						<h3>Carousel with navigation dots</h3>
+<pre>
+&lt;div <strong>id="NAV-ID"</strong> class="crsl-nav"&gt;
+	&lt;a href="#" class="previous"&gt;Previous&lt;/a&gt;
+	&lt;a href="#item-1" class="crsl-dot"&gt;1&lt;/a&gt;
+	&lt;a href="#item-2" class="crsl-dot"&gt;2&lt;/a&gt;
+	&lt;a href="#item-3" class="crsl-dot"&gt;3&lt;/a&gt;
+	&lt;a href="#" class="next"&gt;Next&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="crsl-items" <strong>data-navigation="NAV-ID"</strong>&gt;
+	&lt;div class="crsl-wrap"&gt;
+		&lt;figure id="item-1" class="crsl-item"&gt;
+			&lt;img src="/path/to/image.jpg"&gt;
+		&lt;/figure&gt;
+		&lt;figure id="item-2" class="crsl-item"&gt;
+			&lt;img src="/path/to/image.jpg"&gt;
+		&lt;/figure&gt;
+		&lt;figure id="item-3" class="crsl-item"&gt;
+			&lt;img src="/path/to/image.jpg"&gt;
+		&lt;/figure&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+						<div id="gallery-09">
+							<div id="nav-09" class="crsl-nav" style="position:relative">
+								<a href="#" class="previous">&laquo; Previous</a>
+								<div style="position:absolute;text-align:center;left:150px;right:150px;">
+									<a href="#item-1" class="crsl-dot">1</a>
+									<a href="#item-2" class="crsl-dot">2</a>
+									<a href="#item-3" class="crsl-dot">3</a>
+									<a href="#item-4" class="crsl-dot">4</a>
+									<a href="#item-5" class="crsl-dot">5</a>
+									<a href="#item-6" class="crsl-dot">6</a>
+									<a href="#item-7" class="crsl-dot">7</a>
+									<a href="#item-8" class="crsl-dot">8</a>
+								</div>
+								<a href="#" class="next">Next &raquo;</a>
+							</div>
+							<div class="gallery gallery-09 crsl-items" data-navigation="nav-09">
+								<div class="crsl-wrap">
+									<figure id="item-1" class="crsl-item">
+										<img src="./img/temp/nature.jpg" alt="Feature 1" width="800" height="450" class="wide-image" />
+										<figcaption>Tincidunt integer parturient habitasse nisi phasellus rhoncus eros</figcaption>
+									</figure>
+									<figure id="item-2" class="crsl-item">
+										<img src="./img/temp/sports.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+										<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+									</figure>
+									<figure id="item-3" class="crsl-item">
+										<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+										<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+									</figure>
+									<figure id="item-4" class="crsl-item">
+										<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
+										<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
+									</figure>
+									<figure id="item-5" class="crsl-item">
+										<img src="./img/temp/abstract.jpg" alt="Feature 5" width="800" height="450" class="wide-image" />
+										<figcaption>Aliquam nascetur rhoncus et, cursus sed mauris sociis</figcaption>
+									</figure>
+									<figure id="item-6" class="crsl-item">
+										<img src="./img/temp/sports.jpg" alt="Feature 2" width="800" height="450" class="wide-image" />
+										<figcaption>Sed mus, nec porta placerat tristique! Montes elementum elementum</figcaption>
+									</figure>
+									<figure id="item-7" class="crsl-item">
+										<img src="./img/temp/food.jpg" alt="Feature 3" width="800" height="450" class="wide-image" />
+										<figcaption>Elementum mid, cras! Porttitor adipiscing quis auctor nec adipiscing</figcaption>
+									</figure>
+									<figure id="item-8" class="crsl-item">
 										<img src="./img/temp/people.jpg" alt="Feature 4" width="800" height="450" class="wide-image" />
 										<figcaption>Et magna ultrices! Dolor amet massa lorem!</figcaption>
 									</figure>

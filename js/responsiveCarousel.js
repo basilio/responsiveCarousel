@@ -20,6 +20,7 @@
 			itemMargin : 0,
 			itemClassActive : 'crsl-active',
 			imageWideClass : 'wide-image',
+			navDotClassActive : 'crsl-dot-active',
 			// Use to build grid system - carousel : false
 			carousel : true
 		};
@@ -27,15 +28,29 @@
 			// Set Object
 			obj = $(this);
 
-			// Extend
+			// Extend through javascript
 			if( $.isEmptyObject(args) === false )
 				$.extend( defaults, args );
+
+			// Extend using data
 			if( $.isEmptyObject( $(obj).data('crsl') ) === false )
 				$.extend( defaults, $(obj).data('crsl') );
 
-
 			// Touch detection
-			defaults.isTouch = 'ontouchstart' in document.documentElement || navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i) ? true : false ;
+			defaults.isTouch = 'ontouchstart' in document.documentElement || 
+				navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i) ? 
+					true : false ;
+
+			// navigation with Dots detection
+			defaults.navigationWithDots = $('#'+defaults.navigation).find('.crsl-dot').length !== 0 ? 
+				true : false ;
+
+			// Include some validations
+			if( defaults.navigationWithDots ){
+				// It`s not possible have an infinite carousel with dots navigation using current method.
+				// Mayor issue
+				defaults.infinite = false;
+			}
 
 			obj.init = function(){
 				// Set some default vars
@@ -61,13 +76,31 @@
 				$(obj).find('.crsl-item iframe').attr({ width: '100%' });
 
 
-				// Declare the item ative
+				// Declare the item active
 				if( defaults.carousel )
 					$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
 
-				// Move last element to begin for infinite carousel
-				if( defaults.carousel && defaults.infinite && ( defaults.visible < defaults.total ) )
-					$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
+				// First, if navigation has dots, whe need to copy first item after last, 
+				// and copy last item before first item. 
+				if( defaults.navigationWithDots && ( defaults.visible < defaults.total ) ){
+					// First dot active
+					$('#'+defaults.navigation).find('.crsl-dot:eq(0)').addClass(defaults.navDotClassActive);
+					// This take defaults.visible to know hoy many items has to clone into 
+					// the begin and the end of the .crsl-wrap
+					var first = [], last = [];
+					for( var i = 0; i < defaults.visible; i++ ){
+						first.push( $('.crsl-item:eq(' + i + ')', obj).clone().attr('id', '') );
+						last.push( $('.crsl-item:eq(' + ( ( defaults.total - 1 ) + i ) + ')', obj).clone().attr('id', '') );
+					}
+					$(obj).find('.crsl-item:first-child').before( last );
+					$(obj).find('.crsl-item:last-child').after( first );
+					// When items has cloned, total has to be rewrite
+					defaults.total = defaults.total + ( defaults.visible * 2 );
+					defaults.itemWidth = $(obj).outerWidth();
+				} else {
+					if( defaults.carousel && defaults.infinite && ( defaults.visible < defaults.total ) )
+						$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
+				}
 
 				// if defaults.overflow
 				if( defaults.overflow === false ){
@@ -138,7 +171,11 @@
 					// Normal use - Global carousel variables
 					// Set Variables
 					obj.wrapWidth = Math.floor( ( defaults.itemWidth + defaults.itemMargin ) * defaults.total );
-					obj.wrapMargin = obj.wrapMarginDefault = defaults.infinite && defaults.visible < defaults.total ? parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1, 10 ) : 0 ;
+					obj.wrapMargin = obj.wrapMarginDefault = 
+						( defaults.infinite || defaults.navigationWithDots ) && 
+						defaults.visible < defaults.total ? 
+							parseInt( ( defaults.itemWidth + defaults.itemMargin ) * -1, 10 ) : 
+							0 ;
 					// Move last element to begin for infinite carousel
 					if( defaults.infinite && ( defaults.visible < defaults.total ) && ( $(obj).find('.crsl-item.'+defaults.itemClassActive).index() === 0 ) ){
 						$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
@@ -208,25 +245,33 @@
 						return;
 					}
 				});
+				// Dots Navigation
+				$('#'+defaults.navigation).delegate('.crsl-dot', 'click', function(event){
+					// Prevent default
+					event.preventDefault();
+					// Prepare execute
+					obj.prepareExecute();
+					// Dots Navigation
+					obj.move( $(this) );
+				});
 			};
 
 			// Prepare Execute
 			obj.prepareExecute = function(){
 				// Stop rotate
-				if( defaults.autoRotate ){
+				if( defaults.autoRotate )
 					clearInterval(obj.rotateTime);
-				}
 				// Prevent Animate Event
-				obj.preventAnimateEvent();
+				if( obj.preventAnimateEvent() === false )
+					return false;
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
 				return true;
 			};
 
 			obj.preventAnimateEvent = function(){
-				if( $(obj).find('.crsl-wrap:animated').length > 0 ){
+				if( $(obj).find('.crsl-wrap:animated').length > 0 )
 					return false;
-				}
 			};
 
 			// Rotate Action
@@ -301,6 +346,28 @@
 							if( obj.testNext() === false )
 								$( '#'+defaults.navigation ).find('.next').addClass('next-inactive');
 						}
+						// Trigger Carousel Exec
+						$(this).trigger('endCarousel', [defaults, obj, action]);
+					});
+			};
+
+			// Move Animate
+			obj.move = function(dot){
+				var newItemActive = $(dot[0].hash),
+					action = 'move';
+				// Margin: How to move
+				obj.wrapMargin = newItemActive.outerWidth(true) * newItemActive.index() * -1;
+				// Trigger Begin Carousel Move
+				$(obj).trigger('beginCarousel', [defaults, obj, action]);
+				// Active crsl-dot
+				$('#'+defaults.navigation).find('.crsl-dot.' + defaults.navDotClassActive).removeClass(defaults.navDotClassActive);
+				$(dot).addClass( defaults.navDotClassActive );
+				// Move to target
+				$(obj).find('.crsl-wrap').
+					animate({ marginLeft: obj.wrapMargin+'px' }, defaults.speed, function(){
+						// Active crsl-item
+						$(obj.itemActive).removeClass(defaults.itemClassActive);
+						$(newItemActive).addClass(defaults.itemClassActive);
 						// Trigger Carousel Exec
 						$(this).trigger('endCarousel', [defaults, obj, action]);
 					});
