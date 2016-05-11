@@ -352,18 +352,20 @@
 							e.stopPropagation();
 						}
 					});
-				}).on('touchend', function(e){
-					e.preventDefault();
-					e.stopPropagation();
+				}).on('touchend', function(e){					
 					defaults.swipeDistance = defaults.endCoords.pageX - defaults.startCoords.pageX;
 					if( defaults.swipeDistance >= defaults.swipeMinDistance ){
 						obj.prepareExecute();
 						// swipeLeft
 						obj.previous();
+						e.preventDefault();
+						e.stopPropagation();
 					} else if( defaults.swipeDistance <= - defaults.swipeMinDistance ){
 						obj.prepareExecute();
 						// swipeRight
 						obj.next();
+						e.preventDefault();
+						e.stopPropagation();
 					}
 					$('.touching').off('touchmove').removeClass('touching');
 				});
