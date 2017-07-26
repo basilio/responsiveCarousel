@@ -8,6 +8,7 @@
 	"use strict";
 	$.fn.carousel = function(args){
 		var defaults, obj;
+		
 		defaults = {
 			infinite : true,
 			visible : 1,
@@ -21,8 +22,13 @@
 			itemClassActive : 'crsl-active',
 			imageWideClass : 'wide-image',
 			// Use to build grid system - carousel : false
-			carousel : true
+			carousel : true,
+			pager : false,
+			pagerId : $(this).data('pager'),
+			pagerClassActive : 'crsl-pager-active'
 		};
+
+
 		return $(this).each( function(){
 			// Set Object
 			obj = $(this);
@@ -65,6 +71,7 @@
 				if( defaults.carousel )
 					$(obj).find('.crsl-item:first-child').addClass(defaults.itemClassActive);
 
+
 				// Move last element to begin for infinite carousel
 				if( defaults.carousel && defaults.infinite && ( defaults.visible < defaults.total ) )
 					$(obj).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
@@ -88,9 +95,26 @@
 				// Init AutoRotate
 				obj.initRotate();
 
+				//Show pagers
+				if(defaults.pager){
+					obj.loadpagers();	
+					$("#"+defaults.pagerId).find('.crsl-pager-item:first-child').addClass(defaults.pagerClassActive);
+				}
+				
+
 				// Trigger Clicks
 				obj.triggerNavs();
 
+				
+				
+			};
+
+			obj.loadpagers = function(){
+				var pager_item = "";
+				for(var i=0; i < defaults.total; i++){
+					pager_item = pager_item + "<span class='crsl-pager-item'></span>";
+				}
+				$("#"+defaults.pagerId).append(pager_item);
 			};
 
 			obj.testPreload= function(){
@@ -152,6 +176,8 @@
 					obj.wrapWidth = $(obj).outerWidth();
 					$(obj).find('.crsl-wrap').css({ width: obj.wrapWidth+defaults.itemMargin+'px' });
 					$('#'+defaults.navigation).hide();
+					if(defaults.pager){ $('#'+defaults.pagerId).hide();}
+
 				}
 
 				$(obj).find('.crsl-item').css({ width: defaults.itemWidth+'px', marginRight : defaults.itemMargin+'px' });
@@ -164,8 +190,10 @@
 					if( defaults.visible >= defaults.total ){
 						defaults.autoRotate = false;
 						$('#'+defaults.navigation).hide();
+						if(defaults.pager){ $('#'+defaults.pagerId).hide();}
 					} else {
 						$('#'+defaults.navigation).show();
+						if(defaults.pager){ $('#'+defaults.pagerId).show();}
 					}
 				}
 			};
@@ -220,6 +248,11 @@
 				obj.preventAnimateEvent();
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
+
+				if(defaults.pager){
+					obj.pagerActive = $("#"+defaults.pagerId).find('.crsl-pager-item.'+defaults.pagerClassActive);
+				}
+
 				return true;
 			};
 
@@ -235,6 +268,10 @@
 				obj.preventAnimateEvent();
 				// Active
 				obj.itemActive = $(obj).find('.crsl-item.'+defaults.itemClassActive);
+
+				if(defaults.pager){
+					obj.pagerActive = $(obj).find(".crsl-pager-item."+defaults.pagerClassActive);
+				}
 				obj.next();
 				return true;
 			};
@@ -255,6 +292,17 @@
 				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault + $(obj.itemActive).outerWidth(true) : obj.wrapMargin + $(obj.itemActive).outerWidth(true);
 				var prevItemIndex = $(obj.itemActive).index();
 				var newItemActive = $(obj.itemActive).prev('.crsl-item');
+
+				if(defaults.pager){
+					var prevpagerIndex = $(obj.pagerActive).index();
+					var newpagerActive;
+					if(prevpagerIndex == 0){
+						newpagerActive = $("#"+defaults.pagerId).find('.crsl-pager-item').last();
+					}else{
+					  newpagerActive = $(obj.pagerActive).prev('.crsl-pager-item');
+					}
+				}
+
 				var action = 'previous';
 				// Trigger Begin Carousel Move
 				$(obj).trigger('beginCarousel', [defaults, obj, action]);
@@ -265,6 +313,12 @@
 						// Active
 						$(obj.itemActive).removeClass(defaults.itemClassActive);
 						$(newItemActive).addClass(defaults.itemClassActive);
+
+						if(defaults.pager){
+							$(obj.pagerActive).removeClass(defaults.pagerClassActive);
+							$(newpagerActive).addClass(defaults.pagerClassActive);
+						}
+
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:first-child').before( $('.crsl-item:last-child', obj) );
 						} else {
@@ -283,6 +337,17 @@
 				obj.wrapMargin = defaults.infinite ? obj.wrapMarginDefault - $(obj.itemActive).outerWidth(true) : obj.wrapMargin - $(obj.itemActive).outerWidth(true);
 				var nextItemIndex = $(obj.itemActive).index();
 				var newItemActive = $(obj.itemActive).next('.crsl-item');
+
+				if(defaults.pager){
+					var nextpagerIndex = $(obj.pagerActive).index();
+					var newpagerActive;
+					if(nextpagerIndex != defaults.total - 1){
+						newpagerActive = $(obj.pagerActive).next('.crsl-pager-item');
+					}else{
+						newpagerActive = $("#"+defaults.pagerId).find('.crsl-pager-item').first();	
+					}
+				}
+
 				var action = 'next';
 				// Trigger Begin Carousel Move
 				$(obj).trigger('beginCarousel', [defaults, obj, action]);
@@ -293,6 +358,12 @@
 						// Active
 						$(obj.itemActive).removeClass(defaults.itemClassActive);
 						$(newItemActive).addClass(defaults.itemClassActive);
+
+						if(defaults.pager){
+							$(obj.pagerActive).removeClass(defaults.pagerClassActive);
+							$(newpagerActive).addClass(defaults.pagerClassActive);
+						}
+
 						if( defaults.infinite ){
 							$(this).css({ marginLeft: obj.wrapMarginDefault }).find('.crsl-item:last-child').after( $('.crsl-item:first-child', obj) );
 						} else {
