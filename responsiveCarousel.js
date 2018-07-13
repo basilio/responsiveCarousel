@@ -1,7 +1,7 @@
-/*! responsiveCarousel.JS - v1.2.0
+/*! responsiveCarousel.JS - v1.2.1
  * http://basilio.github.com/responsiveCarousel
  *
- * Copyright (c) 2013 Basilio Cáceres <basilio.caceres@gmail.com>;
+ * Copyright (c) 2018 Basilio Cáceres <basilio.caceres@gmail.com>;
  * Licensed under the MIT license */
 
 ;(function($){
