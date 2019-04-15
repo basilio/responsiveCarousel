@@ -306,69 +306,72 @@
 					});
 			};
 
-			var mouseHover = false, current;
-			$(window).on('mouseleave', function(event){
-				// Detect current
-				if (event.target) current = event.target;
-				else if (event.srcElement) current = event.srcElement;
-				// Detect mouseover
-				if( ( $(obj).attr('id') && $(current).parents('.crsl-items').attr('id') === $(obj).attr('id') ) || ( $(current).parents('.crsl-items').data('navigation') === $(obj).data('navigation') ) ){
-					mouseHover = true;
-				} else {
-					mouseHover = false;
-				}
-				// False
-				return false;
-			});
-
-			$(window).on('keydown', function(event){
-				if( mouseHover === true ){
-					// Previous & next action
-					if( event.keyCode === 37 ){
-						// Prepare execute
-						obj.prepareExecute();
-						// Previous
-						obj.previous();
-					} else if( event.keyCode === 39 ){
-						// Prepare execute
-						obj.prepareExecute();
-						// Next
-						obj.next();
+			if ( defaults.carousel ) {
+			
+				var mouseHover = false, current;
+				$(window).on('mouseleave', function(event){
+					// Detect current
+					if (event.target) current = event.target;
+					else if (event.srcElement) current = event.srcElement;
+					// Detect mouseover
+					if( ( $(obj).attr('id') && $(current).parents('.crsl-items').attr('id') === $(obj).attr('id') ) || ( $(current).parents('.crsl-items').data('navigation') === $(obj).data('navigation') ) ){
+						mouseHover = true;
+					} else {
+						mouseHover = false;
 					}
-				}
-				return;
-			});
+					// False
+					return false;
+				});
 
-			if( defaults.isTouch ){
-				$(obj).on('touchstart', function(e){
-					$(obj).addClass('touching');
-					defaults.startCoords.pageX = defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
-					defaults.startCoords.pageY = defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
-					$('.touching').on('touchmove',function(e){
-						defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
-						defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
-						if( Math.abs( parseInt( defaults.endCoords.pageX-defaults.startCoords.pageX, 10 ) ) > Math.abs( parseInt( defaults.endCoords.pageY-defaults.startCoords.pageY, 10 ) ) ){
+				$(window).on('keydown', function(event){
+					if( mouseHover === true ){
+						// Previous & next action
+						if( event.keyCode === 37 ){
+							// Prepare execute
+							obj.prepareExecute();
+							// Previous
+							obj.previous();
+						} else if( event.keyCode === 39 ){
+							// Prepare execute
+							obj.prepareExecute();
+							// Next
+							obj.next();
+						}
+					}
+					return;
+				});
+
+				if( defaults.isTouch ){
+					$(obj).on('touchstart', function(e){
+						$(obj).addClass('touching');
+						defaults.startCoords.pageX = defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
+						defaults.startCoords.pageY = defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
+						$('.touching').on('touchmove',function(e){
+							defaults.endCoords.pageX = e.originalEvent.targetTouches[0].pageX;
+							defaults.endCoords.pageY = e.originalEvent.targetTouches[0].pageY;
+							if( Math.abs( parseInt( defaults.endCoords.pageX-defaults.startCoords.pageX, 10 ) ) > Math.abs( parseInt( defaults.endCoords.pageY-defaults.startCoords.pageY, 10 ) ) ){
+								e.preventDefault();
+								e.stopPropagation();
+							}
+						});
+					}).on('touchend', function(e){					
+						defaults.swipeDistance = defaults.endCoords.pageX - defaults.startCoords.pageX;
+						if( defaults.swipeDistance >= defaults.swipeMinDistance ){
+							obj.prepareExecute();
+							// swipeLeft
+							obj.previous();
+							e.preventDefault();
+							e.stopPropagation();
+						} else if( defaults.swipeDistance <= - defaults.swipeMinDistance ){
+							obj.prepareExecute();
+							// swipeRight
+							obj.next();
 							e.preventDefault();
 							e.stopPropagation();
 						}
+						$('.touching').off('touchmove').removeClass('touching');
 					});
-				}).on('touchend', function(e){					
-					defaults.swipeDistance = defaults.endCoords.pageX - defaults.startCoords.pageX;
-					if( defaults.swipeDistance >= defaults.swipeMinDistance ){
-						obj.prepareExecute();
-						// swipeLeft
-						obj.previous();
-						e.preventDefault();
-						e.stopPropagation();
-					} else if( defaults.swipeDistance <= - defaults.swipeMinDistance ){
-						obj.prepareExecute();
-						// swipeRight
-						obj.next();
-						e.preventDefault();
-						e.stopPropagation();
-					}
-					$('.touching').off('touchmove').removeClass('touching');
-				});
+				}
 			}
 
 			$(obj).on('loadedCarousel loadedImagesCarousel', function(){
